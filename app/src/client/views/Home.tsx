@@ -11,11 +11,11 @@ const Home = () => {
         </p>
         <a
           className="App-link"
-          href="https://reactjs.org"
+          href="https://www.electronjs.org/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Learn Electron
         </a>
       </header>
     </div>
