@@ -1,7 +1,7 @@
 import mongoose, { Model } from 'mongoose';
 
 import { UserType } from '../../common/types/User.type';
-import { UserSchema } from '../schemas/User.schema';
+import { UserSchema } from '../schemas/UserSchema.schema';
 
 class UserModel{
 

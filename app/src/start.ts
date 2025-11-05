@@ -1,22 +1,25 @@
 import express, {Request, Response} from "express";
 import mongoose from "mongoose";
+import User from "./database/models/UserModel.model";
+import { UserType } from "./common/types/User.type";
 export const app = express();
 
 app.use(express.json());
 
-const UserSchema = new mongoose.Schema({
-  user_name: String,
-  user_age: Number,
-  user_gender: String,
-});
-const User = mongoose.model("User", UserSchema);
+// const UserSchema = new mongoose.Schema({
+//   user_name: String,
+//   user_age: Number,
+//   user_gender: String,
+// });
+// const User = mongoose.model("User", UserSchema);
 
 
 // Route to add a new user
 app.post("/api/add_user", async (req: Request, res: Response) => {
   try {
-    const { user_name, user_age, user_gender } = req.body;
-    const newUser = new User({ user_name, user_age, user_gender });
+    const { username, email, age } = req.body;
+    const user : UserType = { username, email, age }
+    const newUser = new User(user);
     await newUser.save();
     res.status(201).json({ message: "User created successfully", user: newUser });
   } catch (error) {
