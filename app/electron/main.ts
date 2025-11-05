@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
+//import installExtension, { REACT_DEVELOPER_TOOLS } from "@daltonmenezes/electron-devtools-installer";
 
 //import { app as expressApp } from "../src/server/index"
 import {app as server } from "../src/start"
@@ -68,7 +69,13 @@ function createWindow() {
 
 app.whenReady().then(() => {
   // DevTools
-  installExtension(REACT_DEVELOPER_TOOLS)
+  installExtension(REACT_DEVELOPER_TOOLS, {
+      forceDownload: false,
+      //sessionId: 'persist:my-app', // custom session partition
+      loadExtensionOptions: {
+        allowFileAccess: true,
+      },
+    })
     .then((name) => console.log(`Added Extension:  ${name}`))
     .catch((err) => console.log('An error occurred: ', err));
 
