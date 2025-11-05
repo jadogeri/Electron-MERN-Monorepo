@@ -2,13 +2,27 @@ import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
 
-import {app as expressApp } from "../src/server/index"
-
+//import { app as expressApp } from "../src/server/index"
+import {app as server } from "../src/start"
+import { connectDB } from "../src/database/connectDB"
 function createWindow() {
 
-    expressApp.listen(5000, () => {
+  // connectDB().then(()=>{
+  //   expressApp.listen(5000, () => {
+  //   console.log('Express server running on port 5000');
+  // });
+
+
+  // })
+
+    connectDB().then(()=>{
+    server.listen(5000, () => {
     console.log('Express server running on port 5000');
   });
+
+
+  })
+
 
   const win = new BrowserWindow({
 //  frame: false,

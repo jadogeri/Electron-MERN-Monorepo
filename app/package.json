@@ -21,6 +21,8 @@
     "electron-devtools-installer": "^3.2.0",
     "electron-reload": "^1.5.0",
     "express": "^5.1.0",
+    "mongodb-memory-server": "^10.3.0",
+    "mongoose": "^8.19.3",
     "nodemon": "^3.1.10",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -37,10 +39,11 @@
     "eject": "react-scripts eject",
     "backend": "ts-node-dev src/server/src/index",
     "electron": "electron .",
+    "copy-assets": "copyfiles -u 1 src/database/mongodb/**/* build/src",
     "tsc": "npm run build && tsc -p electron && tsc -p src && electron .",
     "electron:start": "react-scripts build && npm run electron",
     "postinstall": "electron-builder install-app-deps",
-    "electron:dev": "concurrently \"cross-env BROWSER=none npm run start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
+    "electron:dev": "npm run copy-assets  && concurrently \"cross-env BROWSER=none npm run start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
     "electron:build": "npm run build && tsc -p electron && electron-builder"
   },
   "eslintConfig": {
@@ -64,11 +67,12 @@
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "concurrently": "^7.6.0",
+    "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "electron": "^23.3.13",
     "electron-builder": "^23.6.0",
     "wait-on": "^7.0.1"
-  },  
+  },
   "build": {
     "extends": null,
     "files": [
@@ -79,10 +83,3 @@
     }
   }
 }
-
-
-
-
-
-
-
