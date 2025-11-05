@@ -5,6 +5,7 @@
     "sourceMap": true,
     "strict": true,
     "outDir": "../build",
+      "lib": ["esnext", "dom", "dom.iterable"],
     "rootDir": "../",
     "noEmitOnError": true,
     "esModuleInterop": true,

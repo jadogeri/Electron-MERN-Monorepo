@@ -1,9 +1,15 @@
 import express, {Request, Response} from "express";
-const app = express();
-import User from "./database/models/User.model";
-
+import mongoose from "mongoose";
+export const app = express();
 
 app.use(express.json());
+
+const UserSchema = new mongoose.Schema({
+  user_name: String,
+  user_age: Number,
+  user_gender: String,
+});
+const User = mongoose.model("User", UserSchema);
 
 
 // Route to add a new user
@@ -30,23 +36,3 @@ app.get("/api/get_users", async (req: Request, res: Response) => {
   }
 });
 
-// async function startServer() {
-//   try {
-//     await connectToDatabase();
-//     const server = app.listen(2000, () => {
-//       console.log("Server running on http://localhost:2000");
-//     });
-
-//     process.on("SIGINT", async () => {
-//       console.log("Shutting down server...");
-//       await mongoose.disconnect();
-//       server.close();
-//       console.log("Server shut down.");
-//       process.exit(0);
-//     });
-//   } catch (error) {
-//     console.error("Error starting server:", error);
-//   }
-// }
-
-export {app}
