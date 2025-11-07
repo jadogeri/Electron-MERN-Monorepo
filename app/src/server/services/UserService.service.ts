@@ -5,13 +5,18 @@ import { UserCreateRequestDTO } from '../../common/dtos/request/UserCreateReques
 import { IUserRepository } from '../../common/interfaces/IUserRepository.interface';
 import { ErrorResponse } from '../../common/exceptions/ErrorResponse';
 import { UserCreateResponseDTO } from '../../common/dtos/response/UserCreateResponseDTO.dto';
-import mongoose from 'mongoose';
+import mongoose, { ObjectId, Types } from 'mongoose';
+import { UserGetAllResponseDTO } from '../../common/dtos/response/UserGetAllResponseDTO.dto';
+import { UserType } from '../../common/types/UserType.type';
+import { UserGetSingleResponseDTO } from '../../common/dtos/response/UserGetSingleResponseDTO.dto';
+import { UserDeleteSingleResponseDTO } from '../../common/dtos/response/UserDeleteSingleResponseDTO.dto';
+import { UserUpdateRequestDTO } from '../../common/dtos/request/UserUpdateRequestDTO.dto';
+import { UserUpdateResponseDTO } from '../../common/dtos/response/UserUpdateResponseDTO.dto';
 
 
 class UserService implements IUserService{
 
     private userRepository: IUserRepository;
-    emailService: any;
     
     constructor(userRepository: IUserRepository){
 
@@ -23,7 +28,6 @@ class UserService implements IUserService{
         try{
 
         const {username, email } = req;
-
         
         const userByEmailAvailable  = await this.userRepository.findByEmail(email as string);
 
@@ -51,21 +55,87 @@ class UserService implements IUserService{
         }catch(e: unknown){
             console.log("error in service layer ", e)
             return new ErrorResponse(500,"mongo error!");
-
         }
 
     }
-    getUser(req: Request<{}, {}, Request>, res: Response): Promise<void> {
-        throw new Error('Method not implemented.');
+    async getUser(id: Types.ObjectId): Promise<UserGetSingleResponseDTO | ErrorResponse> {
+        
+        const user = await this.userRepository.findById(id);
+        if (!user)  {
+                console.log("calling get users no users");
+            return new ErrorResponse(409,`No user found with id ${id}!`);
+        }
+        return user;
     }
-    getUsers(req: Request<{}, {}, Response>, res: Response): Promise<void> {
-        throw new Error('Method not implemented.');
+    
+    async getUsers(): Promise<UserType[] | ErrorResponse> {
+        
+            console.log("calling get users in servic")
+
+        const users  = await this.userRepository.findAll();;
+        if (users instanceof ErrorResponse)  {
+                console.log("calling get users no users");
+            return new ErrorResponse(409,"Username already taken!");
+        }
+        return users;
+
     }
-    updateUser(req: Request<{}, {}, Request>, res: Response): Promise<void> {
-        throw new Error('Method not implemented.');
+    async updateUser(id: Types.ObjectId, userRequest: UserUpdateRequestDTO): Promise<UserUpdateResponseDTO | ErrorResponse> {
+
+        try{
+            const {username, email, age} = userRequest;
+            const user = await this.userRepository.findById(id);
+            if (!user)  {
+                    console.log("calling get users no users");
+                return new ErrorResponse(409,`No user found with id ${id}!`);
+            }
+            const userByEmailAvailable  = await this.userRepository.findByEmail(email as string);
+            
+            if (userByEmailAvailable) {
+                return new ErrorResponse(409, "Email already taken!");
+            }
+
+            const userByUsernameAvailable  = await this.userRepository.findByUsername(username as string);
+            if (userByUsernameAvailable) {
+                return new ErrorResponse(409,"Username already taken!");
+            }
+            const updatedUser = await this.userRepository.update(id, userRequest);
+            return updatedUser
+
+
+        }catch(error: unknown){
+            if(error instanceof Error){
+                return new ErrorResponse(409,"error!" + JSON.stringify(error)); 
+            }
+            else
+                return new ErrorResponse(500,"database error!");   
+            
+        }
+            
     }
-    deleteUser(req: Request<{}, {}, Request>, res: Response): Promise<void> {
-        throw new Error('Method not implemented.');
+    
+    async deleteUser(id: Types.ObjectId): Promise<UserDeleteSingleResponseDTO | ErrorResponse> {
+        try {  
+        const deletedUser = await this.userRepository.deleteById(id);
+            if (deletedUser) {
+            console.log('User deleted successfully:', deletedUser);
+            const userResponse : UserDeleteSingleResponseDTO ={
+                message : `successfully deleted user with id ${id}`
+            }
+
+            return userResponse;
+            } else {
+            console.log('No user found with the given ID:', id);
+                return new ErrorResponse(409,`user with id ${id} not found!`); 
+            }
+        } catch (error: unknown) {
+            console.error('Error deleting user:', error);
+            if(error instanceof Error){
+                return new ErrorResponse(409,"error!" + JSON.stringify(error)); 
+            }
+            else
+                return new ErrorResponse(500,"database error!");         
+            }
     }
     deleteUsers(req: Request<{}, {}, Request>, res: Response): Promise<void> {
         throw new Error('Method not implemented.');

@@ -2,7 +2,7 @@ import mongoose, { Model } from 'mongoose';
 
 import { UserType } from '../../common/types/UserType.type';
 import { UserSchema } from '../schemas/UserSchema.schema';
-import { IUser } from '../../common/interfaces/IUser.interface';
+// import { IUser } from '../../common/interfaces/IUser.interface';
 
 class UserModel{
 
@@ -12,11 +12,11 @@ class UserModel{
         this.schema = new UserSchema();
     }
 
-    public getInstance():  Model<IUser>{
+    public getInstance():  Model<UserType>{
 
         const userSchema = this.schema.getInstance();   
         
-        const User: Model<IUser>  = mongoose.model<UserType>("User", userSchema);
+        const User: Model<UserType>  = mongoose.model<UserType>("User", userSchema);
 
         return User;
     }

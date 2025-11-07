@@ -1,7 +1,7 @@
 
 import { Schema } from 'mongoose';
 import { UserType } from '../../common/types/UserType.type';
-import { IUser } from '../../common/interfaces/IUser.interface';
+// import { IUser } from '../../common/interfaces/IUser.interface';
 
 
 export class UserSchema {
@@ -9,7 +9,7 @@ export class UserSchema {
     private userSchema : Schema ;
 
     constructor(){
-        this.userSchema  = new Schema<IUser>({
+        this.userSchema  = new Schema<UserType>({
             username: {
                 type: String,
                 required: [true, "Please add the user name"],
@@ -35,7 +35,7 @@ export class UserSchema {
 
     }
 
-    public getInstance(): Schema<IUser> {
+    public getInstance(): Schema<UserType> {
         return this.userSchema;
     }
     

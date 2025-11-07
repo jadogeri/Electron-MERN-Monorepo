@@ -12,6 +12,17 @@ import { ErrorResponse } from '../../common/exceptions/ErrorResponse';
 import { errorBroadcaster } from '../utils/errorBroadcaster';
 import { UserCreateResponseDTO } from '../../common/dtos/response/UserCreateResponseDTO.dto';
 import { IUser } from '../../common/interfaces/IUser.interface';
+import { UserGetAllResponseDTO } from '../../common/dtos/response/UserGetAllResponseDTO.dto';
+import { UserType } from '../../common/types/UserType.type';
+import { UserGetSingleRequestDTO } from '../../common/dtos/request/UserGetSingleRequestDTO.dto';
+import mongoose from 'mongoose';
+import { UserGetSingleResponseDTO } from '../../common/dtos/response/UserGetSingleResponseDTO.dto';
+import { UserDeleteSingleRequestDTO } from '../../common/dtos/request/UserDeleteSingleRequestDTO.dto copy';
+import { UserDeleteSingleResponseDTO } from '../../common/dtos/response/UserDeleteSingleResponseDTO.dto';
+import { UserParams } from '../../common/types/UserParams.type';
+import { UserUpdateRequestBody } from '../../common/dtos/request/UserUpdateRequestBody.dto';
+import { UserUpdateRequestDTO } from '../../common/dtos/request/UserUpdateRequestDTO.dto';
+import { UserUpdateResponseDTO } from '../../common/dtos/response/UserUpdateResponseDTO.dto';
 const asyncHandler = require ("express-async-handler");
 
 
@@ -51,21 +62,88 @@ class UserController implements IUserController{
     }
 
   });
-  getUser(req: Request<{}, {}, Request>, res: Response): Promise<void> {
+  getUser= asyncHandler(async (req: Request<UserGetSingleRequestDTO>, res: Response): Promise<void>  => {
+    const {id} = req.params;
+    if(!mongoose.Types.ObjectId.isValid(id)){
+      errorBroadcaster(res, 400,"Not a valid id")
+    }
+    const objectID = new mongoose.Types.ObjectId(id);
+     //calling user service
+    const userResponse : ErrorResponse | UserGetSingleResponseDTO = await this.userService.getUser(objectID);   
+
+    if(userResponse instanceof ErrorResponse){
+      errorBroadcaster(res, userResponse.getCode(), userResponse.getMessage())
+    }else{
+      // SEND RESPONSE  
+      res.status(201).send(userResponse);
+    }
+    
+  })
+  getUsers= asyncHandler(async (req: Request<{}, {}, Response>, res: Response): Promise<void>  => {
+
+    console.log("calling get users in controller")
+     //calling user service
+    const userResponse : ErrorResponse | UserGetAllResponseDTO = await this.userService.getUsers();   
+
+    if(userResponse instanceof ErrorResponse){
+           errorBroadcaster(res, userResponse.getCode(), userResponse.getMessage())
+    }else{
+      // SEND RESPONSE  
+      res.status(200).send(userResponse);
+    }
+
+  })
+  updateUser= asyncHandler(async (req: Request<UserParams, {}, UserUpdateRequestBody>, res: Response): Promise<void> => {
+  const id = req.params.id; // Access the ID from the URL
+  const { username, email, age } : UserUpdateRequestBody = req.body; // Destructure properties from the body
+
+  console.log(`Item ID from URL: ${id}`);
+  console.log(`Item name from body: ${username}`);
+  console.log(`Item emaik from body: ${email}`);
+  console.log(`Item age from body: ${age}`);
+      if(!mongoose.Types.ObjectId.isValid(id)){
+      errorBroadcaster(res, 400,"Not a valid id")
+    }
+    const objectID = new mongoose.Types.ObjectId(id);
+
+    if(!username && !email && !age){
+      errorBroadcaster(res, 400,"body cannot be empty")
+    }
+    console.log("calling get users in controller")
+     //calling user service
+    const userRequest : UserUpdateRequestDTO = {... req.body}
+    const userResponse : ErrorResponse | UserUpdateResponseDTO = await this.userService.updateUser(objectID, userRequest);   
+
+    if(userResponse instanceof ErrorResponse){
+           errorBroadcaster(res, userResponse.getCode(), userResponse.getMessage())
+    }else{
+      // SEND RESPONSE  
+      res.status(200).send(userResponse);
+    }
+
+
+
+
+  })
+  deleteUser= asyncHandler(async (req: Request<UserDeleteSingleRequestDTO>, res: Response): Promise<void>  => {
+    const {id} = req.params;
+    if(!mongoose.Types.ObjectId.isValid(id)){
+      errorBroadcaster(res, 400,"Not a valid id")
+    }
+    const objectID = new mongoose.Types.ObjectId(id);
+     //calling user service
+    const userResponse : ErrorResponse | UserDeleteSingleResponseDTO = await this.userService.deleteUser(objectID);   
+
+    if(userResponse instanceof ErrorResponse){
+      errorBroadcaster(res, userResponse.getCode(), userResponse.getMessage())
+    }else{
+      // SEND RESPONSE  
+      res.status(200).send(userResponse);
+    }
+  })
+  deleteUsers= asyncHandler(async (req: Request<{}, {}, Request>, res: Response): Promise<void> => {
     throw new Error('Method not implemented.');
-  }
-  getUsers(req: Request<{}, {}, Response>, res: Response): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
-  updateUser(req: Request<{}, {}, Request>, res: Response): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
-  deleteUser(req: Request<{}, {}, Request>, res: Response): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
-  deleteUsers(req: Request<{}, {}, Request>, res: Response): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
+  })
 
  
 }
