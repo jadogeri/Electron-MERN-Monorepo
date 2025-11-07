@@ -1,11 +1,11 @@
-
-
 import { Request, Response }  from "express"   
 import { UserCreateRequestDTO } from "../dtos/request/UserCreateRequestDTO.dto"; 
+import { UserCreateResponseDTO } from "../dtos/response/UserCreateResponseDTO.dto";
+import { ErrorResponse } from "../exceptions/ErrorResponse";
 
-export interface IUserController {
+export interface IUserService {
 
-    createUser(req: Request<{}, {}, UserCreateRequestDTO>, res: Response) : Promise<void>;
+    createUser(req: UserCreateRequestDTO) : Promise<UserCreateResponseDTO | ErrorResponse>;
     
     getUser(req: Request<{}, {}, Request>, res: Response) : Promise<void>;
 

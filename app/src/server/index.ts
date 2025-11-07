@@ -1,18 +1,30 @@
 import express, {Request, Response} from "express";
-import mongoose from "mongoose";
-import User from "./database/models/UserModel.model";
-import { UserType } from "./common/types/User.type";
+
+import dotenv from "dotenv";
+import cors from "cors"
+import * as bodyParser from "body-parser"
+import { corsOptions } from "./configs/cors";
+import { errorHandler } from "./middlewares/errorHandler";
+import {router as userRouter} from "./routes/userRoutes.route"
+
+
+dotenv.config();
+
+
 export const app = express();
 
 app.use(express.json());
 
-// const UserSchema = new mongoose.Schema({
-//   user_name: String,
-//   user_age: Number,
-//   user_gender: String,
-// });
-// const User = mongoose.model("User", UserSchema);
+app.use("/api/users", userRouter);
 
+app.use(bodyParser.json())
+app.use(errorHandler);
+
+app.use(cors(corsOptions)) 
+
+
+
+/*
 
 // Route to add a new user
 app.post("/api/add_user", async (req: Request, res: Response) => {
@@ -38,4 +50,6 @@ app.get("/api/get_users", async (req: Request, res: Response) => {
     res.status(500).json({ message: "Failed to fetch users", error });
   }
 });
+
+*/
 
