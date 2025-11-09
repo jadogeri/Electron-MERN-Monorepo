@@ -16,7 +16,7 @@ export interface IUserRepository {
 
     create(user : UserCreateRequestDTO): Promise<any | null>;
 
-    delete(_id :  mongoose.Types.ObjectId): Promise<any | null>;
+    deleteAll(): Promise<any | null>;
 
     deleteById(id :  mongoose.Types.ObjectId): Promise<any | null>;
 

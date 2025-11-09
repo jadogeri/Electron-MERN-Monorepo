@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export interface UserCreateResponseDTO{
+export type UserCreateResponseDTO ={
     username: string;
     email: string;
     age: number;

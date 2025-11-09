@@ -11,18 +11,16 @@ import { IUserService } from '../../common/interfaces/IUserService.interface';
 import { ErrorResponse } from '../../common/exceptions/ErrorResponse';
 import { errorBroadcaster } from '../utils/errorBroadcaster';
 import { UserCreateResponseDTO } from '../../common/dtos/response/UserCreateResponseDTO.dto';
-import { IUser } from '../../common/interfaces/IUser.interface';
 import { UserGetAllResponseDTO } from '../../common/dtos/response/UserGetAllResponseDTO.dto';
-import { UserType } from '../../common/types/UserType.type';
-import { UserGetSingleRequestDTO } from '../../common/dtos/request/UserGetSingleRequestDTO.dto';
 import mongoose from 'mongoose';
 import { UserGetSingleResponseDTO } from '../../common/dtos/response/UserGetSingleResponseDTO.dto';
-import { UserDeleteSingleRequestDTO } from '../../common/dtos/request/UserDeleteSingleRequestDTO.dto copy';
 import { UserDeleteSingleResponseDTO } from '../../common/dtos/response/UserDeleteSingleResponseDTO.dto';
 import { UserParams } from '../../common/types/UserParams.type';
 import { UserUpdateRequestBody } from '../../common/dtos/request/UserUpdateRequestBody.dto';
 import { UserUpdateRequestDTO } from '../../common/dtos/request/UserUpdateRequestDTO.dto';
 import { UserUpdateResponseDTO } from '../../common/dtos/response/UserUpdateResponseDTO.dto';
+import { UserDeleteAllResponseDTO } from '../../common/dtos/response/UserDeleteAllResponseDTO.dto';
+import { UserCreateRequestBody } from '../../common/dtos/request/UserCreateRequestBody.dto';
 const asyncHandler = require ("express-async-handler");
 
 
@@ -41,15 +39,15 @@ class UserController implements IUserController{
 
     this.userService = userService;
   }
-  createUser = asyncHandler(async (req: Request, res: Response) : Promise<void> => {
+  createUser = asyncHandler(async (req: Request<{}, {}, UserCreateRequestBody>, res: Response) : Promise<void> => {
 
-    const { username, email, age } : UserCreateRequestDTO= req.body;
+    const { username, email, age } : UserCreateRequestBody = req.body;
+    
     if(!username || !email || !age){
-
       errorBroadcaster(res, 400,"All fields are required")
     }   
 
-   const userRequest : UserCreateRequestDTO = { username, email, age };
+    const userRequest : UserCreateRequestDTO = { ... req.body};
     
      //calling user service
     const userResponse : ErrorResponse | UserCreateResponseDTO = await this.userService.createUser(userRequest);   
@@ -62,7 +60,7 @@ class UserController implements IUserController{
     }
 
   });
-  getUser= asyncHandler(async (req: Request<UserGetSingleRequestDTO>, res: Response): Promise<void>  => {
+  getUser= asyncHandler(async (req: Request<UserParams,{},{} >, res: Response): Promise<void>  => {
     const {id} = req.params;
     if(!mongoose.Types.ObjectId.isValid(id)){
       errorBroadcaster(res, 400,"Not a valid id")
@@ -76,8 +74,7 @@ class UserController implements IUserController{
     }else{
       // SEND RESPONSE  
       res.status(201).send(userResponse);
-    }
-    
+    }    
   })
   getUsers= asyncHandler(async (req: Request<{}, {}, Response>, res: Response): Promise<void>  => {
 
@@ -97,10 +94,6 @@ class UserController implements IUserController{
   const id = req.params.id; // Access the ID from the URL
   const { username, email, age } : UserUpdateRequestBody = req.body; // Destructure properties from the body
 
-  console.log(`Item ID from URL: ${id}`);
-  console.log(`Item name from body: ${username}`);
-  console.log(`Item emaik from body: ${email}`);
-  console.log(`Item age from body: ${age}`);
       if(!mongoose.Types.ObjectId.isValid(id)){
       errorBroadcaster(res, 400,"Not a valid id")
     }
@@ -125,7 +118,7 @@ class UserController implements IUserController{
 
 
   })
-  deleteUser= asyncHandler(async (req: Request<UserDeleteSingleRequestDTO>, res: Response): Promise<void>  => {
+  deleteUser= asyncHandler(async (req: Request<UserParams, {}, {}>, res: Response): Promise<void>  => {
     const {id} = req.params;
     if(!mongoose.Types.ObjectId.isValid(id)){
       errorBroadcaster(res, 400,"Not a valid id")
@@ -141,8 +134,18 @@ class UserController implements IUserController{
       res.status(200).send(userResponse);
     }
   })
-  deleteUsers= asyncHandler(async (req: Request<{}, {}, Request>, res: Response): Promise<void> => {
-    throw new Error('Method not implemented.');
+  deleteUsers= asyncHandler(async (req: Request<{}, {}, {}>, res: Response): Promise<void> => {
+
+    console.log("calling get users in controller")
+     //calling user service
+    const userResponse : ErrorResponse | UserDeleteAllResponseDTO = await this.userService.deleteUsers();   
+
+    if(userResponse instanceof ErrorResponse){
+           errorBroadcaster(res, userResponse.getCode(), userResponse.getMessage())
+    }else{
+      // SEND RESPONSE  
+      res.status(200).send(userResponse);
+    }
   })
 
  

@@ -9,13 +9,15 @@ export const connectDB = async () => {
     const binaryPath = path.join(__dirname, "./mongodb/binaries");
 
     process.env.MONGOMS_SYSTEM_BINARY = path.join(binaryPath, "mongod.exe");
+    const MONGODB_PORT  = process.env.MONGODB_PORT || 27017
+
 
     const mongod = new MongoMemoryServer({
       instance: {
         dbName: "Test-Database",
         dbPath: dbPath,
         storageEngine: "wiredTiger",
-        port: 27017,
+        port: MONGODB_PORT,
       },
       binary: {
         version: "8.2.1",

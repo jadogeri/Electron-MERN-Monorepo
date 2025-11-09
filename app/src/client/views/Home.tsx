@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from '../../electron.webp';
 import '../../App.css';
+import { Link } from 'react-router-dom';
 const Home = () => {
   return (
     <div className="App">
@@ -17,6 +18,9 @@ const Home = () => {
         >
           Learn Electron
         </a>
+        <Link to={"/dashboard"}>Test Crud Template Using Redux Thunk</Link>
+        <Link to={"/dashboard"}>Test Crud Template Using Context API</Link>
+
       </header>
     </div>
   )

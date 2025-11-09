@@ -8,17 +8,13 @@ declare global {
         body: IUser | UserCreateRequestDTO,
         params: UserGetSingleRequestDTO
       }
-      // interface Response {
-      // responseBody?: UserRegisterResponseDTO | ErrorResponse;
-      // json(body: UserRegisterResponseDTO): Response; // Type for the response body
-      // body: UserRegisterResponseDTO
 
-      // }
     }
     namespace NodeJS {
       interface ProcessEnv {
-        BASE_URL : string;
-        PORT: number;
+        EXPRESS_APP_PORT: number;
+        EXPRESS_APP_HOST:string;
+        EXPRESS_APP_PROTOCOL:string;
        }
     }
   }

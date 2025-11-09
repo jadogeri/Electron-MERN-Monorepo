@@ -75,8 +75,15 @@ class UserRepository implements IUserRepository{
      * @returns A promise that resolves to the deleted user document or null if not found.
      * @throws MongooseError if there is an issue with the database operation.
      */
-    async delete(_id :  mongoose.Types.ObjectId) {
-        return this.userModel.findByIdAndDelete(_id);
+    async deleteAll() {
+        const emptyUsers: UserType[] = [];
+        const response = this.userModel.deleteMany({});
+
+        if((await response).acknowledged === true){
+            return emptyUsers;
+        }
+        throw new Error("error occured")
+
     }
 
     /**
@@ -98,7 +105,7 @@ class UserRepository implements IUserRepository{
      * @throws MongooseError if the update operation fails.
      */
     async update(id :  mongoose.Types.ObjectId, user : UserUpdateRequestDTO) {
-        return this.userModel.findOneAndUpdate({ _id: id }, {$set: user},{upsert: true});
+        return this.userModel.findOneAndUpdate({ _id: id }, {$set: user},{upsert: true, returnDocument: 'after' });
     }
 
         /**

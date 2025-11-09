@@ -9,6 +9,7 @@ import { UserGetSingleResponseDTO } from "../dtos/response/UserGetSingleResponse
 import { UserDeleteSingleResponseDTO } from "../dtos/response/UserDeleteSingleResponseDTO.dto";
 import { UserUpdateRequestDTO } from "../dtos/request/UserUpdateRequestDTO.dto";
 import { UserUpdateResponseDTO } from "../dtos/response/UserUpdateResponseDTO.dto";
+import { UserDeleteAllResponseDTO } from "../dtos/response/UserDeleteAllResponseDTO.dto";
 
 export interface IUserService {
 
@@ -22,6 +23,6 @@ export interface IUserService {
 
     deleteUser(id: Types.ObjectId) : Promise<UserDeleteSingleResponseDTO | ErrorResponse >;
 
-    deleteUsers(req: Request<{}, {}, Request>, res: Response) : Promise<void> ;
+    deleteUsers() : Promise<UserType[] | ErrorResponse> ;
 
 }

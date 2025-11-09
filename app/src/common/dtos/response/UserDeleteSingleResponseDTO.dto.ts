@@ -1,5 +1,5 @@
 
-export interface UserDeleteSingleResponseDTO{
+export type UserDeleteSingleResponseDTO = {
     
     message: string
 }

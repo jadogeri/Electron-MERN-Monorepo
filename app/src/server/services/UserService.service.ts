@@ -12,6 +12,7 @@ import { UserGetSingleResponseDTO } from '../../common/dtos/response/UserGetSing
 import { UserDeleteSingleResponseDTO } from '../../common/dtos/response/UserDeleteSingleResponseDTO.dto';
 import { UserUpdateRequestDTO } from '../../common/dtos/request/UserUpdateRequestDTO.dto';
 import { UserUpdateResponseDTO } from '../../common/dtos/response/UserUpdateResponseDTO.dto';
+import { UserDeleteAllResponseDTO } from '../../common/dtos/response/UserDeleteAllResponseDTO.dto';
 
 
 class UserService implements IUserService{
@@ -72,7 +73,7 @@ class UserService implements IUserService{
         
             console.log("calling get users in servic")
 
-        const users  = await this.userRepository.findAll();;
+        const users : UserType[]= await this.userRepository.findAll();;
         if (users instanceof ErrorResponse)  {
                 console.log("calling get users no users");
             return new ErrorResponse(409,"Username already taken!");
@@ -137,8 +138,20 @@ class UserService implements IUserService{
                 return new ErrorResponse(500,"database error!");         
             }
     }
-    deleteUsers(req: Request<{}, {}, Request>, res: Response): Promise<void> {
-        throw new Error('Method not implemented.');
+    async deleteUsers(): Promise<UserType[] | ErrorResponse> {
+
+        try{
+            const users  : UserType[]= await this.userRepository.deleteAll();;
+
+            return users;
+        }catch(err: unknown){
+            if (err instanceof Error)  {
+                console.log("calling get users no users");
+                return new ErrorResponse(409,err.name + "\n"+ err.message + "\n" + err.stack);
+            }
+            return new ErrorResponse(500,"Database Error");
+
+        }
     }
 
 
