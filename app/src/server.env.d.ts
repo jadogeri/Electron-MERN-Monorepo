@@ -15,6 +15,7 @@ declare global {
         EXPRESS_APP_PORT: number;
         EXPRESS_APP_HOST:string;
         EXPRESS_APP_PROTOCOL:string;
+        EXPRESS_APP_URL:string
        }
     }
   }

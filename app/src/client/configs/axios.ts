@@ -1,16 +1,19 @@
 import axios from 'axios';
-import type { AxiosInstance } from 'axios'
+import type { AxiosHeaders, AxiosInstance } from 'axios'
 
-const baseURL = process.env.REACT_APP_BASE_URL;
+const baseURL = "http://localhost:5000/api/users"//process.env.REACT_APP_BASE_URL;
 
 console.log("base url ",baseURL)
 
 
 
 const headers ={
+    'Access-Control-Allow-Headers': ['Content-Type', 'Authorization'],
     'Content-Type': 'application/json',
     "Accept":'application/json',
     "Access-Control-Allow-Origin": "*",
+    'Access-Control-Allow-Methods': ['GET', 'POST', 'OPTIONS', 'PUT', 'PATCH', 'DELETE']
+
 }
 
 const api : AxiosInstance =  axios.create({

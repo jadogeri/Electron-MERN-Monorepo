@@ -15,7 +15,7 @@ export const app = express();
 export const EXPRESS_APP_PORT= process.env.EXPRESS_APP_PORT  || 4000
 export const EXPRESS_APP_HOST= process.env.EXPRESS_APP_HOST as string || "localhost";
 export const EXPRESS_APP_PROTOCOL= process.env.EXPRESS_APP_PROTOCOL as string || "http";
-
+console.log("express url: ", process.env.EXPRESS_APP_URL as string)
 
 
 app.use(express.json());

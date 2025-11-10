@@ -1,8 +1,8 @@
 import React from 'react';
 import { HashRouter, Route, Routes } from "react-router-dom";
-import Home from './views/Home';
-import Login from './views/Login';
-import DashBoard from './views/DashBoard';
+import Home from './views/Home.view';
+import ContextView from './views/Context.view';
+import ReduxView from './views/Redux.view';
 
 
 const ProjectRoutes = () => {
@@ -12,8 +12,8 @@ const ProjectRoutes = () => {
         <HashRouter >
           <Routes >				
             <Route path="/" element={<Home/>} index /> 
-            <Route path="/login" element={<Login />}  />             
-            <Route path="/dashboard" element={<DashBoard />}  /> 
+            <Route path="/context" element={<ContextView />}  />             
+            <Route path="/redux" element={<ReduxView />}  /> 
           </Routes>
         </HashRouter>		
   );

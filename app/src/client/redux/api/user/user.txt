@@ -1,0 +1,128 @@
+import { apiSlice } from "../apiSlice";
+
+const testfn = async (args, { dispatch, queryFulfilled, getState,  }) => {
+  try {
+    console.log("...........................................args .....................................", args)
+    console.log("...........................................dispatch .....................................",dispatch)
+    console.log("...........................................getState .....................................",getState())
+
+
+
+    await queryFulfilled;
+    console.log("...........................................dispatch .....................................",dispatch)
+    const result = await queryFulfilled;
+    console.log("...........................................result .....................................",result)
+    if(result){
+      return result;
+    }
+
+    // Handle successful query
+  } catch (error) {
+    //  if (error.status === 401) {
+      if (error.error.originalStatus === 401) {
+        const el = document.getElementById("unauthorized-modal")
+        el.style.display = "block"
+        console.log('Unauthorized access:', error);
+
+    } else {
+      // Handle other errors
+      console.error('Query error:', JSON.stringify(error));
+      if(error.error.originalStatus ===401){
+        dispatch(setLogoutStatus())
+        return error
+      }
+
+    }
+  }
+}
+
+export const businessApiSlice = apiSlice.injectEndpoints({
+   endpoints: (builder) => ({
+    getAllUsers: builder.query({
+        query: () => ({
+            url : "/",
+            method : "GET",
+           // headers: headers
+        }),
+        
+       providesTags: ['User'],
+       onQueryStarted: testfn    
+
+      }),
+  
+    getSingleUser: builder.query({
+        query: (id) => ({
+            url: `/${id}`,
+            method : "GET",
+            //headers: headers
+        }),
+      providesTags: ['User'],
+      //onQueryStarted: Authenticated
+
+
+    }),
+ 
+    createBusiness: builder.mutation({
+        query: ({username, email, age} ) => ({
+            url: "/",
+            method: "POST",
+            body: {
+                username: username,
+                email: email,
+                age: age
+            },
+        }),
+     invalidatesTags: ['User'],
+
+    }),
+    deleteSingleUser: builder.mutation({
+        query: (id) => ({
+            url: `/${id}`,
+            method: "DELETE",
+            //headers: headers
+      }),
+    invalidatesTags: ['User'],
+
+  }),
+    deleteAllUsers: builder.mutation({
+        query: () => ({
+            url: `/`,
+            method: "DELETE",
+           // headers: headers
+        }),
+    invalidatesTags: ['User'],
+
+    }),
+  
+    updateUser: builder.mutation({
+        query: ( {username, email, age}  ) => ({
+            url: "/",
+            method: "PUT",
+            body: {
+            body: {
+                username: username,
+                email: email,
+                age: age
+            },
+          },
+          //headers: headers
+        }),
+      invalidatesTags: ['Business'],
+
+    }),  
+  }),
+});
+
+export const {
+  
+
+    useGetAllUsersQuery,
+    useGetSingleUserQuery,
+    useCreateUserMutation,
+    useDeleteAllUsersMutation,
+    useDeleteSingleUsersMutation,
+    useUpdateUserMutation,
+    
+
+} = businessApiSlice;
+

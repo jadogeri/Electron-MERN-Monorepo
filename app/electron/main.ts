@@ -45,7 +45,8 @@ function createWindow() {
     webPreferences: {
       contextIsolation: false,
       preload: path.join(__dirname, 'preload.js'),
-    }
+      //webSecurity: false// by pass cors - dev only  
+       }
   })
 
   if (app.isPackaged) {
@@ -58,7 +59,37 @@ function createWindow() {
 
     win.webContents.openDevTools();
 
-    // Hot Reloading on 'node_modules/.bin/electronPath'
+win.webContents.session.webRequest.onBeforeSendHeaders(
+    (details, callback) => {
+        const { requestHeaders } = details;
+        UpsertKeyValue(requestHeaders, 'Origin', '*');
+        UpsertKeyValue(requestHeaders, 'Sec-Fetch-Mode', 'no-cors');
+        UpsertKeyValue(requestHeaders, 'Sec-Fetch-Site', 'none');
+        UpsertKeyValue(requestHeaders, 'Sec-Fetch-Dest', 'document');
+        callback({
+          requestHeaders,
+        });
+    },
+);
+
+win.webContents.session.webRequest.onBeforeSendHeaders(
+  (details, callback) => {
+    const { requestHeaders } = details;
+    UpsertKeyValue(requestHeaders, 'Access-Control-Allow-Origin', ['*']);
+    callback({ requestHeaders });
+  },
+);
+
+win.webContents.session.webRequest.onHeadersReceived((details, callback) => {
+  const { responseHeaders } = details;
+  UpsertKeyValue(responseHeaders as Record<string, string[]>, 'Access-Control-Allow-Origin', ['*']);
+  UpsertKeyValue(responseHeaders as Record<string, string[]>, 'Access-Control-Allow-Headers', ['*']);
+  callback({
+    responseHeaders,
+  });
+});
+
+   // Hot Reloading on 'node_modules/.bin/electronPath'
     require('electron-reload')(__dirname, {
       electron: path.join(__dirname,
         '..',
@@ -99,3 +130,16 @@ app.whenReady().then(() => {
   });
 });
 
+function UpsertKeyValue(obj: { [x: string]: any; }, keyToChange: string, value: any) {
+  const keyToChangeLower = keyToChange.toLowerCase();
+  for (const key of Object.keys(obj)) {
+    if (key.toLowerCase() === keyToChangeLower) {
+      // Reassign old key
+      obj[key] = value;
+      // Done
+      return;
+    }
+  }
+  // Insert at end instead
+  obj[keyToChange] = value;
+}

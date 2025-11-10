@@ -2,10 +2,24 @@ import React from 'react';
 import logo from '../../electron.webp';
 import '../../App.css';
 import { Link } from 'react-router-dom';
+import { useGetPostsQuery } from '../redux/api/apiSlice';
+
 const Home = () => {
+    const { data: posts, error, isLoading } = useGetPostsQuery();
+  if (isLoading) return <div>Loading posts...</div>;
+  // if (error) return <div>Error: {error.message}</div>;
+
   return (
     <div className="App">
       <header className="App-header">
+               <div>
+      <h1>Posts</h1>
+      <ul>
+        {posts?.map((post) => (
+          <li key={post.id}>{post.title}</li>
+        ))}
+      </ul>
+    </div>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
@@ -18,8 +32,8 @@ const Home = () => {
         >
           Learn Electron
         </a>
-        <Link to={"/dashboard"}>Test Crud Template Using Redux Thunk</Link>
-        <Link to={"/dashboard"}>Test Crud Template Using Context API</Link>
+        <Link to={"/redux"}>Test Crud Template Using Redux Thunk</Link>
+        <Link to={"/context"}>Test Crud Template Using Context API</Link>
 
       </header>
     </div>
@@ -27,3 +41,4 @@ const Home = () => {
 }
 
 export default Home
+
