@@ -7,7 +7,6 @@ import { UserType } from '../../common/types/UserType.type';
 import InfoTable from '../components/tables/InfoTable/InfoTable';
 import UserTable from '../components/tables/UserTable/UserTable';
 import ParentComponent from '../components/ParentComponent';
-import MyForm from '../components/MyForm';
 
 const Redux = () => {
     const { data: users, error, isLoading } = useGetAllUsersQuery();
@@ -33,7 +32,6 @@ const Redux = () => {
       /> */}
 
 {/* <InfoTable /> */}
-<MyForm />
       
       <ParentComponent />
 
