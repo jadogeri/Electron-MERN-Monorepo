@@ -26,12 +26,8 @@ const Redux = () => {
       >
     {/* <InfoTable users={appUsers} setUsers={setAppUsers as React.Dispatch<React.SetStateAction<never[]>>}
 
-    
-
       
       /> */}
-
-      <InfoTable />
       <ParentComponent />
 
     <UserTable users={appUsers} />
