@@ -1,10 +1,6 @@
 import React, { useState } from 'react'
 import "./InfoTable.css"
-import Dropdown from '../../Dropdown/Dropdown'
-import { useCreateUserMutation, useDeleteAllUsersMutation, useDeleteSingleUserMutation, useLazyGetAllUsersQuery, useLazyGetSingleUserQuery, useUpdateUserMutation } from '../../../redux/api/user/user.api'
-import mongoose, { Types } from 'mongoose'
-import { InfoTableProps } from '../../../../common/types/InfoTableProps'
-import { UserType } from '../../../../common/types/UserType.type'
+
 
 const InfoTable = () => {
 

@@ -31,7 +31,7 @@ const Redux = () => {
       
       /> */}
 
-      <InfoTable />
+      
       <ParentComponent />
 
     <UserTable users={appUsers} />
