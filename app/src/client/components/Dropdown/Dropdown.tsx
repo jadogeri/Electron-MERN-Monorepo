@@ -1,27 +1,19 @@
 import React, { useState } from 'react';
+import { UserType } from '../../../common/types/UserType.type';
 
 type DropdownProps={
   appUsers: any[];
   selectedValue: any;
+  setSelectedValue: React.Dispatch<React.SetStateAction<UserType>>;
   onSelectChange: React.SetStateAction<any>;
 }
-const Dropdown : React.FC<DropdownProps>=({appUsers, selectedValue, onSelectChange})=> {
-  // const options = [
-  //   { label: 'Apple', value: 'apple' },
-  //   { label: 'Banana', value: 'banana' },
-  //   { label: 'Orange', value: 'orange' },
-  // ];
+const Dropdown : React.FC<DropdownProps>=({appUsers, selectedValue, onSelectChange, setSelectedValue})=> {
 
-  //const [selectedValue, setSelectedValue] = useState('banana'); // Set default value here
-
-  const handleChange = (event: any) => {
-    onSelectChange(event.target.value);
-  };
 
   return (
     <div>
       {/* <label htmlFor="fruit-select">Choose a fruit:</label> */}
-      <select id="fruit-select" value={selectedValue} onChange={handleChange}>
+      <select id="mongoose-types-objectId" value={selectedValue} onChange={(event:any) => onSelectChange(event.target.value, setSelectedValue)}>
         {appUsers.map((appUser) => (
           <option key={appUser._id} value={appUser._id}>
             {appUser._id}

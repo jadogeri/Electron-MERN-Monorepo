@@ -16,24 +16,6 @@ type UserTypeData = {
 }
 
 
-// export const apiSlice = createApi({
-//   reducerPath: 'api',
-//   baseQuery: fetchBaseQuery({ baseUrl: 'https://jsonplaceholder.typicode.com/' }), // Example API
-//   endpoints: (builder) => ({
-//     getPosts: builder.query<Post[], void>({
-//       query: () => 'posts',
-//     }),
-//     getPostById: builder.query<Post, number>({
-//       query: (id) => `posts/${id}`,
-//     }),
-//   }),
-// });
-
-// export const { useGetPostsQuery, useGetPostByIdQuery } = apiSlice;
-// export default apiSlice;
-
-
-
 export const userApiSlice = apiSlice.injectEndpoints({
    endpoints: (builder) => ({
     getAllUsers: builder.query<UserType[], void>({
@@ -43,7 +25,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
            // headers: headers
         }),
         
-       //providesTags: ['User'],
+       providesTags: ['User'],
 
       }),
   
@@ -53,6 +35,8 @@ export const userApiSlice = apiSlice.injectEndpoints({
             method : "GET",
             //headers: headers
         }),
+        providesTags: ['User'],
+
 
     }),
  
@@ -66,6 +50,8 @@ export const userApiSlice = apiSlice.injectEndpoints({
                 age: age
             },
         }),
+              invalidatesTags: ['User'],
+
 
     }),
     deleteSingleUser: builder.mutation<UserDeleteSingleResponseDTO, Types.ObjectId>({
@@ -73,6 +59,8 @@ export const userApiSlice = apiSlice.injectEndpoints({
             url: `/${id}`,
             method: "DELETE",
       }),
+        invalidatesTags: ['User'],
+
 
   }),
     deleteAllUsers: builder.mutation<UserDeleteAllResponseDTO, void>({
@@ -81,6 +69,8 @@ export const userApiSlice = apiSlice.injectEndpoints({
             method: "DELETE",
            // headers: headers
         }),
+        invalidatesTags: ['User'],
+
 
     }),
   
@@ -95,7 +85,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
           },
           //headers: headers
         }),
-      //invalidatesTags: ['Business'],
+      invalidatesTags: ['User'],
 
     }),  
   }),

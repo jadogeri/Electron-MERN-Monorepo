@@ -45,7 +45,7 @@ function createWindow() {
     webPreferences: {
       contextIsolation: false,
       preload: path.join(__dirname, 'preload.js'),
-      //webSecurity: false// by pass cors - dev only  
+      webSecurity: false// by pass cors - dev only  
        }
   })
 
