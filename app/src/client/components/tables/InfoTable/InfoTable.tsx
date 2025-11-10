@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import "./InfoTable.css"
+import Dropdown from '../../Dropdown/Dropdown'
 
 
 const InfoTable = () => {
