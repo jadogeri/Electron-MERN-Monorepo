@@ -5,6 +5,7 @@ import { data, Link } from 'react-router-dom';
 import { useGetAllUsersQuery } from '../redux/api/user/user.api';
 import { UserType } from '../../common/types/UserType.type';
 import InfoTable from '../components/tables/InfoTable/InfoTable';
+import UserTable from '../components/tables/UserTable/UserTable';
 
 const Redux = () => {
     const { data: users, error, isLoading } = useGetAllUsersQuery();
@@ -22,20 +23,24 @@ const Redux = () => {
     >
       <header className="App-header"
       >
-    <InfoTable />
+    <InfoTable users={appUsers} setUsers={setAppUsers as React.Dispatch<React.SetStateAction<never[]>>}
 
-      <div>
+      
+      />
+
+      {/* <div>
       <h1>Users</h1>
       <ul>
         {users?.map((user) => (
           <li key={user.username}>{user.email} {user.age}</li>
         ))}
       </ul>
-    </div>
+    </div> */}
+
+    <UserTable users={appUsers} />
 
         <Link to={"/"}>Home</Link>
         <Link to={"/context"}>Test Crud Template Using Context API</Link>
-        <>{JSON.stringify(appUsers, null, 4)}</>
       </header>
     </div>
   )

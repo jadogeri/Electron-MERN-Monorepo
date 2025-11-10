@@ -104,6 +104,8 @@ export const userApiSlice = apiSlice.injectEndpoints({
 export const {
   
 
+    useLazyGetAllUsersQuery, 
+    useLazyGetSingleUserQuery, 
     useGetAllUsersQuery,
     useGetSingleUserQuery,
     useCreateUserMutation,
