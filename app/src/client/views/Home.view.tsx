@@ -31,6 +31,8 @@ const Home = () => {
         >
           Learn Electron
         </a>
+                <Link to={"/test"}>test app</Link>
+
         <Link to={"/redux"}>Test Crud Template Using Redux Thunk</Link>
         <Link to={"/context"}>Test Crud Template Using Context API</Link>
       </header>
