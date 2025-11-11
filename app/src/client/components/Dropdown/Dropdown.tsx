@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { UserType } from '../../../common/types/UserType.type';
+import mongoose from 'mongoose';
 
 type DropdownProps={
   appUsers: any[];
   selectedValue: any;
-  setSelectedValue: React.Dispatch<React.SetStateAction<UserType>>;
+  setSelectedValue: React.Dispatch<React.SetStateAction<mongoose.Types.ObjectId>>;
   onSelectChange: React.SetStateAction<any>;
 }
 const Dropdown : React.FC<DropdownProps>=({appUsers, selectedValue, onSelectChange, setSelectedValue})=> {

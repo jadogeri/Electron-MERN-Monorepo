@@ -11,7 +11,7 @@ import { UserUpdateResponseDTO } from '../../../../common/dtos/response/UserUpda
 import { UserGetSingleResponseDTO } from '../../../../common/dtos/response/UserGetSingleResponseDTO.dto';
 
 type UserTypeData = {
-    id?: Types.ObjectId
+    id?: string
     body?: UserCreateRequestBody | UserUpdateRequestBody
 }
 

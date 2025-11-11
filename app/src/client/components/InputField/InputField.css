@@ -1,0 +1,18 @@
+.container {
+  display: flex; /* Arranges input-groups in a row */
+  justify-content: space-around; /* Distributes space between them */
+  align-items: flex-start; /* Aligns items to the top if heights differ */
+  padding: 10px; /* Optional padding for the container */
+  border: 1px solid #ccc; /* Optional border for visualization */
+}
+
+.input-group {
+  display: flex; /* Arranges label and input vertically */
+  flex-direction: column;
+  margin: 0 10px; /* Optional spacing between groups */
+}
+
+.input-group label {
+  margin-bottom: 5px; /* Space between label and input */
+  font-weight: bold;
+}

@@ -8,13 +8,13 @@ interface Option {
 
 interface ChildSelectProps {
   options: Option[];
-  onSelectChange: (value: string, callback:React.Dispatch<React.SetStateAction<string>>) => void;
-  callback:React.Dispatch<React.SetStateAction<string>>
+  onSelectChange: (value: string) => void;
+  callback:app/src/client/components/ChildSelect.tsx
 }
 
-const ChildSelect: React.FC<ChildSelectProps> = ({ options, onSelectChange, callback }) => {
+const ChildSelect: React.FC<ChildSelectProps> = ({ options, onSelectChange }) => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    onSelectChange(event.target.value, callback);
+    onSelectChange(event.target.value);
   };
 
   return (

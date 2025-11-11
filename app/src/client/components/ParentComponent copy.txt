@@ -16,8 +16,8 @@ const options: Option[] = [
 const ParentComponent: React.FC = () => {
   const [selectedValue, setSelectedValue] = useState<string>('');
 
-  const handleSelectChange = (value: string, callback: React.Dispatch<React.SetStateAction<string>>) => {
-    callback(value);
+  const handleSelectChange = (value: string) => {
+    setSelectedValue(value);
     console.log('Selected from child:', value);
   };
 
@@ -25,7 +25,7 @@ const ParentComponent: React.FC = () => {
     <div>
       <h1>Parent Component</h1>
       <p>Current selected value: {selectedValue}</p>
-      <ChildSelect options={options} onSelectChange={handleSelectChange} callback={setSelectedValue} />
+      <ChildSelect options={options} onSelectChange={handleSelectChange} />
     </div>
   );
 };
