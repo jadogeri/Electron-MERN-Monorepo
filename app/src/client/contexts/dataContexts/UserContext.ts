@@ -4,7 +4,7 @@ import { createDataContext } from "../createDataContext";
 import { Dispatch } from "react";
 
 import { UserType } from "../../../common/types/UserType.type";
-import { CreateUserAction, GetAllUsersAction, GetAllUsersFailureAction, GetAllUsersSuccessAction, UserAction, UserActionTypes } from "../actionTypes/userActionTypes.types";
+import { CreateUserAction, DeleteAllUsersAction, DeleteAllUsersFailureAction, DeleteAllUsersRequestAction, DeleteAllUsersSuccessAction, GetAllUsersAction, GetAllUsersFailureAction, GetAllUsersSuccessAction, UserAction, UserActionTypes } from "../actionTypes/userActionTypes.types";
 import api from "../../configs/axios";
 import { error } from "console";
 
@@ -63,6 +63,29 @@ const getAllUsers = (dispatch: Dispatch<UserAction> ) => async () => {
 
 };
 
+const deleteAllUsers = (dispatch: Dispatch<UserAction> ) => async () => {
+  dispatch({ type: UserActionTypes.DELETE_ALL_USERS_REQUEST } as DeleteAllUsersRequestAction);
+  // Simulate API call
+  try{
+    const result = await api.delete("/");
+    const data = result.data;
+    console.log("data ....................", JSON.stringify(data, null,4))
+
+    // throw new Error("error thowinggggggggggggggg")
+    dispatch({ type: UserActionTypes.DELETE_ALL_USERS_SUCCESS, payload: [] } as DeleteAllUsersSuccessAction);
+
+    alert(JSON.stringify(data, null, 4))
+
+  }catch(error: unknown){
+    if(error instanceof Error){
+        // console.log("error at line 81: ", error.message)
+    dispatch({ type: UserActionTypes.DELETE_ALL_USERS_FAILURE, payload: error.message } as DeleteAllUsersFailureAction);
+    }
+  }
+
+};
+
+
 // const signOut = (dispatch: Dispatch<AuthAction>) => () => {
 //   dispatch({ type: 'SIGN_OUT' });
 // };
@@ -73,20 +96,24 @@ const getAllUsers = (dispatch: Dispatch<UserAction> ) => async () => {
 // };
 
 // Combine action creators
-const actions = { createUser, getAllUsers };
+const actions = { createUser, getAllUsers, deleteAllUsers };
 
 // Define the reducer
 const userReducer = (state: UserState, action: UserAction): UserState => {
   switch (action.type) {
     case UserActionTypes.GET_ALL_USERS_REQUEST:
+    case UserActionTypes.DELETE_ALL_USERS_REQUEST:
+
       return { ...state, isLoading: true, error: null };
     case UserActionTypes.CREATE_USER:
       return { ...state, isLoading: false, error: null, users: [...state.users, action.payload]  };
     case UserActionTypes.GET_ALL_USERS:
       return { ...state, isLoading: false, error: null};
     case UserActionTypes.GET_ALL_USERS_SUCCESS:
+    case UserActionTypes.DELETE_ALL_USERS_SUCCESS:
       return { ...state,users: action.payload, isLoading: false, error: null };
     case UserActionTypes.GET_ALL_USERS_FAILURE:
+    case UserActionTypes.DELETE_ALL_USERS_FAILURE:
       return { ...state, isLoading: false, error: action.payload };
 
     // case 'SET_LOADING':

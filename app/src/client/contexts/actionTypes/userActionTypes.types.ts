@@ -13,8 +13,25 @@ export enum UserActionTypes {
   GET_ALL_USERS_SUCCESS = 'GET_ALL_USERS_SUCCESS' ,
   GET_ALL_USERS_FAILURE = 'GET_ALL_USERS_FAILURE' ,
 
+  GET_SINGLE_USER_REQUEST = 'GET_SINGLE_USER_REQUEST' ,
+  GET_SINGLE_USER_SUCCESS = 'GET_SINGLE_USER_SUCCESS' ,
+  GET_SINGLE_USER_FAILURE = 'GET_SINGLE_USER_FAILURE' ,
 
+  UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST' ,
+  UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS' ,
+  UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE' ,
 
+  CREATE_USER_REQUEST = 'CREATE_USER_REQUEST' ,
+  CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS' ,
+  CREATE_USER_FAILURE = 'CREATE_USER_FAILURE' ,
+
+    DELETE_ALL_USERS_REQUEST = 'DELETE_ALL_USERS_REQUEST' ,
+  DELETE_ALL_USERS_SUCCESS = 'DELETE_ALL_USERS_SUCCESS' ,
+  DELETE_ALL_USERS_FAILURE = 'DELETE_ALL_USERS_FAILURE' ,
+
+  DELETE_SINGLE_USER_REQUEST = 'DELETE_SINGLE_USER_REQUEST' ,
+  DELETE_SINGLE_USER_SUCCESS = 'DELETE_SINGLE_USER_SUCCESS' ,
+  DELETE_SINGLE_USER_FAILURE = 'DELETE_SINGLE_USER_FAILURE' ,
 
 }
 
@@ -43,6 +60,7 @@ export interface GetSingleUserAction {
   payload: {id: string}
 }
 
+/** GET ALL USER ACTIONS */
 export interface GetAllUsersAction {
   type: UserActionTypes.GET_ALL_USERS;
 }
@@ -61,6 +79,31 @@ export interface GetAllUsersFailureAction {
   payload: any
 }
 
+/** GET ALL USER ACTIONS */
+
+
+export interface DeleteAllUsersRequestAction {
+  type: UserActionTypes.DELETE_ALL_USERS_REQUEST;
+}
+
+export interface DeleteAllUsersSuccessAction {
+  type: UserActionTypes.DELETE_ALL_USERS_SUCCESS;
+  payload: UserType[]
+}
+
+export interface DeleteAllUsersFailureAction {
+  type: UserActionTypes.DELETE_ALL_USERS_FAILURE;
+  payload: any
+}
+
+
+
+
 // Union Type for all possible actions
 export type UserAction = CreateUserAction | UpdateUserAction | 
-GetAllUsersAction | GetAllUsersRequestAction | GetAllUsersSuccessAction | GetAllUsersFailureAction | GetSingleUserAction | DeleteAllUsersAction | DeleteSingleUserAction;
+GetAllUsersAction | GetAllUsersRequestAction | GetAllUsersSuccessAction | GetAllUsersFailureAction |
+DeleteAllUsersRequestAction | DeleteAllUsersSuccessAction | DeleteAllUsersFailureAction |
+
+
+
+GetSingleUserAction | DeleteAllUsersAction | DeleteSingleUserAction;

@@ -8,7 +8,7 @@ import { UserType } from '../../common/types/UserType.type';
 const Test = () => {
   const { state: authState, signIn, signOut } = useAuthContext();
   const { state: appState, toggleTheme } = useAppContext();
-  const {state: userState,createUser, getAllUsers } = useUserContext();
+  const {state: userState,createUser, getAllUsers, deleteAllUsers } = useUserContext();
   const user : UserType ={username:"NEg", "age":10, "email" : "email"}
 
   useEffect(()=>{
@@ -25,6 +25,11 @@ const Test = () => {
   }
 
 
+    const handleDeleteAllUsers=()=>{
+    deleteAllUsers()
+    
+  }
+
 
   return (
     <div>
@@ -37,9 +42,11 @@ const Test = () => {
       <div>
         new user is : {JSON.stringify(userState, null,4)}
       </div>
-      <button onClick={handlegetUsers}>get all users</button>
-        all users list : {JSON.stringify(userState, null,4)}
+      {/* <button onClick={handlegetUsers}>get all users</button>
+        all users list : {JSON.stringify(userState, null,4)} */}
 
+      <button onClick={handleDeleteAllUsers}>handle delete all users</button>
+        delete all users list : {JSON.stringify(userState, null,4)}
 
     </div>
   );
