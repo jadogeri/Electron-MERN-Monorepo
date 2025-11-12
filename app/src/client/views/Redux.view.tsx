@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import '../../App.css';
-import { data, Link } from 'react-router-dom';
+import {  Link } from 'react-router-dom';
 import { useCreateUserMutation, useDeleteAllUsersMutation, useDeleteSingleUserMutation, useGetAllUsersQuery, useLazyGetAllUsersQuery, useLazyGetSingleUserQuery, useUpdateUserMutation } from '../redux/api/user/user.api';
 import { UserType } from '../../common/types/UserType.type';
 import UserTable from '../components/tables/UserTable/UserTable';
-import ParentComponent from '../components/ParentComponent';
 import InfoTable from '../components/tables/InfoTable/InfoTable';
 import mongoose, { Types } from 'mongoose';
 

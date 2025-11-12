@@ -1,13 +1,6 @@
 import { UserType } from "../../../common/types/UserType.type";
 
-// 3. Action Types Enum (Optional, but good practice)
 export enum UserActionTypes {
-  CREATE_USER  = 'CREATE_USER',
-  UPDATE_USER = 'UPDATE_USER',
-  DELETE_SINGLE_USER = 'DELETE_SINGLE_USER',
-  GET_SINGLE_USER = 'GET_SINGLE_USER' ,
-  GET_ALL_USERS = 'GET_ALL_USERS' ,
-  DELETE_ALL_USERS ='DELETE_ALL_USERS',
 
   GET_ALL_USERS_REQUEST = 'GET_ALL_USERS_REQUEST' ,
   GET_ALL_USERS_SUCCESS = 'GET_ALL_USERS_SUCCESS' ,
@@ -31,34 +24,49 @@ export enum UserActionTypes {
 
   DELETE_SINGLE_USER_REQUEST = 'DELETE_SINGLE_USER_REQUEST' ,
   DELETE_SINGLE_USER_SUCCESS = 'DELETE_SINGLE_USER_SUCCESS' ,
-  DELETE_SINGLE_USER_FAILURE = 'DELETE_SINGLE_USER_FAILURE' ,
+  DELETE_SINGLE_USER_FAILURE = 'DELETE_SINGLE_USER_FAILURE'
 
 }
 
 // 4. Action Interfaces (Discriminated Union)
-export interface CreateUserAction {
-  type: UserActionTypes.CREATE_USER;
-  payload: UserType;
-}
 
-export interface UpdateUserAction {
-  type: UserActionTypes.UPDATE_USER;
-  payload: { id: string; body: Partial<UserType> };
-}
+/** GET SINGLE USER ACTIONS */
 
-export interface DeleteSingleUserAction {
-  type: UserActionTypes.DELETE_SINGLE_USER;
+export interface GetSingleUserRequestAction {
+  type: UserActionTypes.GET_SINGLE_USER_REQUEST;
   payload: {id: string}
 }
 
-export interface DeleteAllUsersAction {
-  type: UserActionTypes.DELETE_SINGLE_USER;
+export interface GetSingleUserSuccessAction {
+  type: UserActionTypes.GET_SINGLE_USER_SUCCESS;
+  payload: UserType[] | UserType
 }
 
-/** GET ALL USER ACTIONS */
-export interface GetAllUsersAction {
-  type: UserActionTypes.GET_ALL_USERS;
+export interface GetSingleUserFailureAction {
+  type: UserActionTypes.GET_SINGLE_USER_FAILURE;
+  payload: any
 }
+
+/** DELETE SINGLE USER ACTIONS */
+
+export interface DeleteSingleUserRequestAction {
+  type: UserActionTypes.DELETE_SINGLE_USER_REQUEST;
+  payload: {id: string}
+}
+
+export interface DeleteSingleUserSuccessAction {
+  type: UserActionTypes.DELETE_SINGLE_USER_SUCCESS;
+  payload: UserType[] | UserType
+}
+
+export interface DeleteSingleUserFailureAction {
+  type: UserActionTypes.DELETE_SINGLE_USER_FAILURE;
+  payload: any
+}
+
+
+
+/** GET ALL USER ACTIONS */
 
 export interface GetAllUsersRequestAction {
   type: UserActionTypes.GET_ALL_USERS_REQUEST;
@@ -74,8 +82,7 @@ export interface GetAllUsersFailureAction {
   payload: any
 }
 
-/** DELETE ALL USER ACTIONS */
-
+/** DELETE ALL USERS ACTIONS */
 
 export interface DeleteAllUsersRequestAction {
   type: UserActionTypes.DELETE_ALL_USERS_REQUEST;
@@ -91,54 +98,46 @@ export interface DeleteAllUsersFailureAction {
   payload: any
 }
 
-/** GETSINGLE USER ACTIONS */
-export interface GetSingleUserAction {
-  type: UserActionTypes.GET_SINGLE_USER;
-  payload: {id: string}
-}
-export interface GetSingleUserRequestAction {
-  type: UserActionTypes.GET_SINGLE_USER_REQUEST;
+/** UPDATE USER ACTIONS */
+export interface UpdateUserRequestAction {
+  type: UserActionTypes.UPDATE_USER_REQUEST;
 }
 
-export interface GetSingleUserSuccessAction {
-  type: UserActionTypes.GET_SINGLE_USER_SUCCESS;
+export interface UpdateUserSuccessAction {
+  type: UserActionTypes.UPDATE_USER_SUCCESS;
   payload: UserType
 }
 
-export interface GetSingleUserFailureAction {
-  type: UserActionTypes.GET_SINGLE_USER_FAILURE;
+export interface UpdateUserFailureAction {
+  type: UserActionTypes.UPDATE_USER_FAILURE;
   payload: any
 }
 
-/** DELETE SINGLE USER ACTIONS */
-export interface DeleteSingleUserAction {
-  type: UserActionTypes.DELETE_SINGLE_USER;
-  payload: {id: string}
-}
-export interface DeleteSingleUserRequestAction {
-  type: UserActionTypes.DELETE_SINGLE_USER_REQUEST;
+/** UPDATE USER ACTIONS */
+export interface CreateUserRequestAction {
+  type: UserActionTypes.CREATE_USER_REQUEST,
 }
 
-export interface DeleteSingleUserSuccessAction {
-  type: UserActionTypes.DELETE_SINGLE_USER_SUCCESS;
+export interface CreateUserSuccessAction {
+  type: UserActionTypes.CREATE_USER_SUCCESS;
   payload: UserType
 }
 
-export interface DeleteSingleUserFailureAction {
-  type: UserActionTypes.DELETE_SINGLE_USER_FAILURE;
+export interface CreateUserFailureAction {
+  type: UserActionTypes.CREATE_USER_FAILURE;
   payload: any
 }
-
 
 
 // Union Type for all possible actions
-export type UserAction = CreateUserAction | UpdateUserAction | 
-GetAllUsersAction | GetAllUsersRequestAction | GetAllUsersSuccessAction | GetAllUsersFailureAction |
+export type UserAction =
+GetAllUsersRequestAction | GetAllUsersSuccessAction | GetAllUsersFailureAction |
+GetSingleUserRequestAction | GetSingleUserSuccessAction | GetSingleUserFailureAction |
+DeleteSingleUserRequestAction | DeleteSingleUserSuccessAction | DeleteSingleUserFailureAction |
+
 DeleteAllUsersRequestAction | DeleteAllUsersSuccessAction | DeleteAllUsersFailureAction |
+CreateUserRequestAction | CreateUserSuccessAction | CreateUserFailureAction |
+
+UpdateUserRequestAction | UpdateUserSuccessAction | UpdateUserFailureAction;
 
 
-
-GetSingleUserAction | GetSingleUserRequestAction | GetSingleUserSuccessAction | GetSingleUserFailureAction |
-DeleteSingleUserAction | DeleteSingleUserRequestAction | DeleteSingleUserSuccessAction | DeleteSingleUserFailureAction |
-
-DeleteAllUsersAction | DeleteSingleUserAction ;

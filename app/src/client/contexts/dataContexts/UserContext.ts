@@ -4,9 +4,16 @@ import { createDataContext } from "../createDataContext";
 import { Dispatch } from "react";
 
 import { UserType } from "../../../common/types/UserType.type";
-import { CreateUserAction, DeleteAllUsersAction, DeleteAllUsersFailureAction, DeleteAllUsersRequestAction, DeleteAllUsersSuccessAction, DeleteSingleUserFailureAction, DeleteSingleUserRequestAction, DeleteSingleUserSuccessAction, GetAllUsersAction, GetAllUsersFailureAction, GetAllUsersRequestAction, GetAllUsersSuccessAction, GetSingleUserFailureAction, GetSingleUserRequestAction, GetSingleUserSuccessAction, UserAction, UserActionTypes } from "../actionTypes/userActionTypes.types";
+import { 
+  DeleteAllUsersRequestAction, DeleteAllUsersSuccessAction, DeleteAllUsersFailureAction, 
+  DeleteSingleUserRequestAction, DeleteSingleUserSuccessAction, DeleteSingleUserFailureAction, 
+  GetAllUsersFailureAction, GetAllUsersRequestAction, GetAllUsersSuccessAction, 
+  GetSingleUserFailureAction, GetSingleUserRequestAction, GetSingleUserSuccessAction, 
+  UserAction, UserActionTypes, 
+  CreateUserRequestAction,
+  CreateUserSuccessAction,
+  CreateUserFailureAction} from "../actionTypes/userActionTypes.types";
 import api from "../../configs/axios";
-import { error } from "console";
 
 // 1. Define the State Type
 
@@ -34,17 +41,48 @@ const initialState: UserState ={
 // Define action handlers
 const createUser = (dispatch: Dispatch<UserAction> ) => async (user: UserType) => {
   dispatch({
-    type: UserActionTypes.CREATE_USER,
-    payload: user,
-  } as CreateUserAction);
+    type: UserActionTypes.CREATE_USER_REQUEST,
+  } as CreateUserRequestAction);
   // Simulate API call
-//   await new Promise(resolve => setTimeout(resolve, 1000));
-//   dispatch({ type: 'SIGN_IN', payload: token });
-//   dispatch({ type: 'SET_LOADING', payload: false });
+  try{
+    const result = await api.post("/");
+    const data = result.data;
+    console.log("data ....................", JSON.stringify(data, null,4))
+
+    dispatch({ type: UserActionTypes.CREATE_USER_SUCCESS, payload: data } as CreateUserSuccessAction);
+
+    alert(JSON.stringify(data, null, 4))
+
+  }catch(error: unknown){
+    if(error instanceof Error){
+    dispatch({ type: UserActionTypes.CREATE_USER_FAILURE, payload: error.message } as CreateUserFailureAction);
+    }
+  }
+};
+
+const updateUser = (dispatch: Dispatch<UserAction> ) => async (id: string, user: UserType) => {
+  dispatch({
+    type: UserActionTypes.CREATE_USER_REQUEST,
+  } as CreateUserRequestAction);
+  // Simulate API call
+  try{
+    const result = await api.put(`/${id}`, user);
+    const data = result.data;
+    console.log("data ....................", JSON.stringify(data, null,4))
+
+    dispatch({ type: UserActionTypes.CREATE_USER_SUCCESS, payload: data } as CreateUserSuccessAction);
+
+    alert(JSON.stringify(data, null, 4))
+
+  }catch(error: unknown){
+    if(error instanceof Error){
+    dispatch({ type: UserActionTypes.CREATE_USER_FAILURE, payload: error.message } as CreateUserFailureAction);
+    }
+  }
 };
 
 const getAllUsers = (dispatch: Dispatch<UserAction> ) => async () => {
-  dispatch({ type: UserActionTypes.GET_ALL_USERS } as GetAllUsersAction);
+  dispatch({ type: UserActionTypes.GET_ALL_USERS_REQUEST } as GetAllUsersRequestAction);
   // Simulate API call
   try{
     const result = await api.get("/");
@@ -141,21 +179,23 @@ const deleteSingleUser= (dispatch: Dispatch<UserAction> ) => async (id: string) 
 // };
 
 // Combine action creators
-const actions = { createUser, getAllUsers, deleteAllUsers, getSingleUser, deleteSingleUser };
+const actions = { createUser, getAllUsers, deleteAllUsers, getSingleUser, deleteSingleUser, updateUser };
 
 // Define the reducer
 const userReducer = (state: UserState, action: UserAction): UserState => {
   switch (action.type) {
     case UserActionTypes.GET_ALL_USERS_REQUEST:
+    case UserActionTypes.GET_SINGLE_USER_REQUEST:
     case UserActionTypes.DELETE_ALL_USERS_REQUEST:
     case UserActionTypes.DELETE_SINGLE_USER_REQUEST:
-
-
+    case UserActionTypes.CREATE_USER_REQUEST:
+    case UserActionTypes.UPDATE_USER_REQUEST:
       return { ...state, isLoading: true, error: null };
-    case UserActionTypes.CREATE_USER:
+
+    case UserActionTypes.CREATE_USER_SUCCESS:
       return { ...state, isLoading: false, error: null, users: [...state.users, action.payload]  };
-    case UserActionTypes.GET_ALL_USERS:
-      return { ...state, isLoading: false, error: null};
+    // case UserActionTypes.GET_ALL_USERS:
+    //   return { ...state, isLoading: false, error: null};
     case UserActionTypes.GET_ALL_USERS_SUCCESS:
     case UserActionTypes.DELETE_ALL_USERS_SUCCESS:
       return { ...state,users: action.payload, isLoading: false, error: null };
