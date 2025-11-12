@@ -25,7 +25,7 @@ export enum UserActionTypes {
   CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS' ,
   CREATE_USER_FAILURE = 'CREATE_USER_FAILURE' ,
 
-    DELETE_ALL_USERS_REQUEST = 'DELETE_ALL_USERS_REQUEST' ,
+  DELETE_ALL_USERS_REQUEST = 'DELETE_ALL_USERS_REQUEST' ,
   DELETE_ALL_USERS_SUCCESS = 'DELETE_ALL_USERS_SUCCESS' ,
   DELETE_ALL_USERS_FAILURE = 'DELETE_ALL_USERS_FAILURE' ,
 
@@ -55,11 +55,6 @@ export interface DeleteAllUsersAction {
   type: UserActionTypes.DELETE_SINGLE_USER;
 }
 
-export interface GetSingleUserAction {
-  type: UserActionTypes.GET_SINGLE_USER;
-  payload: {id: string}
-}
-
 /** GET ALL USER ACTIONS */
 export interface GetAllUsersAction {
   type: UserActionTypes.GET_ALL_USERS;
@@ -79,7 +74,7 @@ export interface GetAllUsersFailureAction {
   payload: any
 }
 
-/** GET ALL USER ACTIONS */
+/** DELETE ALL USER ACTIONS */
 
 
 export interface DeleteAllUsersRequestAction {
@@ -96,6 +91,43 @@ export interface DeleteAllUsersFailureAction {
   payload: any
 }
 
+/** GETSINGLE USER ACTIONS */
+export interface GetSingleUserAction {
+  type: UserActionTypes.GET_SINGLE_USER;
+  payload: {id: string}
+}
+export interface GetSingleUserRequestAction {
+  type: UserActionTypes.GET_SINGLE_USER_REQUEST;
+}
+
+export interface GetSingleUserSuccessAction {
+  type: UserActionTypes.GET_SINGLE_USER_SUCCESS;
+  payload: UserType
+}
+
+export interface GetSingleUserFailureAction {
+  type: UserActionTypes.GET_SINGLE_USER_FAILURE;
+  payload: any
+}
+
+/** DELETE SINGLE USER ACTIONS */
+export interface DeleteSingleUserAction {
+  type: UserActionTypes.DELETE_SINGLE_USER;
+  payload: {id: string}
+}
+export interface DeleteSingleUserRequestAction {
+  type: UserActionTypes.DELETE_SINGLE_USER_REQUEST;
+}
+
+export interface DeleteSingleUserSuccessAction {
+  type: UserActionTypes.DELETE_SINGLE_USER_SUCCESS;
+  payload: UserType
+}
+
+export interface DeleteSingleUserFailureAction {
+  type: UserActionTypes.DELETE_SINGLE_USER_FAILURE;
+  payload: any
+}
 
 
 
@@ -106,4 +138,7 @@ DeleteAllUsersRequestAction | DeleteAllUsersSuccessAction | DeleteAllUsersFailur
 
 
 
-GetSingleUserAction | DeleteAllUsersAction | DeleteSingleUserAction;
+GetSingleUserAction | GetSingleUserRequestAction | GetSingleUserSuccessAction | GetSingleUserFailureAction |
+DeleteSingleUserAction | DeleteSingleUserRequestAction | DeleteSingleUserSuccessAction | DeleteSingleUserFailureAction |
+
+DeleteAllUsersAction | DeleteSingleUserAction ;

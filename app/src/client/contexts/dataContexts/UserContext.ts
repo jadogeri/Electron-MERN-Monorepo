@@ -4,7 +4,7 @@ import { createDataContext } from "../createDataContext";
 import { Dispatch } from "react";
 
 import { UserType } from "../../../common/types/UserType.type";
-import { CreateUserAction, DeleteAllUsersAction, DeleteAllUsersFailureAction, DeleteAllUsersRequestAction, DeleteAllUsersSuccessAction, GetAllUsersAction, GetAllUsersFailureAction, GetAllUsersSuccessAction, UserAction, UserActionTypes } from "../actionTypes/userActionTypes.types";
+import { CreateUserAction, DeleteAllUsersAction, DeleteAllUsersFailureAction, DeleteAllUsersRequestAction, DeleteAllUsersSuccessAction, DeleteSingleUserFailureAction, DeleteSingleUserRequestAction, DeleteSingleUserSuccessAction, GetAllUsersAction, GetAllUsersFailureAction, GetAllUsersRequestAction, GetAllUsersSuccessAction, GetSingleUserFailureAction, GetSingleUserRequestAction, GetSingleUserSuccessAction, UserAction, UserActionTypes } from "../actionTypes/userActionTypes.types";
 import api from "../../configs/axios";
 import { error } from "console";
 
@@ -85,6 +85,51 @@ const deleteAllUsers = (dispatch: Dispatch<UserAction> ) => async () => {
 
 };
 
+const getSingleUser= (dispatch: Dispatch<UserAction> ) => async (id: string) => {
+  dispatch({ type: UserActionTypes.GET_SINGLE_USER_REQUEST } as GetSingleUserRequestAction);
+  // Simulate API call
+  try{
+    const result = await api.get(`/${id}`);
+    const data : UserType= result.data;
+    console.log("data ....................", JSON.stringify(data, null,4))
+
+    // throw new Error("error thowinggggggggggggggg")
+    dispatch({ type: UserActionTypes.GET_SINGLE_USER_SUCCESS, payload: data } as GetSingleUserSuccessAction);
+
+    alert(JSON.stringify(data, null, 4))
+
+  }catch(error: unknown){
+    if(error instanceof Error){
+        // console.log("error at line 81: ", error.message)
+    dispatch({ type: UserActionTypes.GET_SINGLE_USER_FAILURE, payload: error.message } as GetSingleUserFailureAction);
+    }
+  }
+
+};
+
+const deleteSingleUser= (dispatch: Dispatch<UserAction> ) => async (id: string) => {
+  dispatch({ type: UserActionTypes.DELETE_SINGLE_USER_REQUEST } as DeleteSingleUserRequestAction);
+  // Simulate API call
+  try{
+    const result = await api.delete(`/${id}`);
+    const data : UserType= result.data;
+    console.log("data ....................", JSON.stringify(data, null,4))
+
+    // throw new Error("error thowinggggggggggggggg")
+    dispatch({ type: UserActionTypes.DELETE_SINGLE_USER_SUCCESS, payload: data } as DeleteSingleUserSuccessAction);
+
+    alert(JSON.stringify(data, null, 4))
+
+  }catch(error: unknown){
+    if(error instanceof Error){
+        // console.log("error at line 81: ", error.message)
+    dispatch({ type: UserActionTypes.DELETE_SINGLE_USER_FAILURE, payload: error.message } as DeleteSingleUserFailureAction);
+    }
+  }
+
+};
+
+
 
 // const signOut = (dispatch: Dispatch<AuthAction>) => () => {
 //   dispatch({ type: 'SIGN_OUT' });
@@ -96,13 +141,15 @@ const deleteAllUsers = (dispatch: Dispatch<UserAction> ) => async () => {
 // };
 
 // Combine action creators
-const actions = { createUser, getAllUsers, deleteAllUsers };
+const actions = { createUser, getAllUsers, deleteAllUsers, getSingleUser, deleteSingleUser };
 
 // Define the reducer
 const userReducer = (state: UserState, action: UserAction): UserState => {
   switch (action.type) {
     case UserActionTypes.GET_ALL_USERS_REQUEST:
     case UserActionTypes.DELETE_ALL_USERS_REQUEST:
+    case UserActionTypes.DELETE_SINGLE_USER_REQUEST:
+
 
       return { ...state, isLoading: true, error: null };
     case UserActionTypes.CREATE_USER:
@@ -113,7 +160,10 @@ const userReducer = (state: UserState, action: UserAction): UserState => {
     case UserActionTypes.DELETE_ALL_USERS_SUCCESS:
       return { ...state,users: action.payload, isLoading: false, error: null };
     case UserActionTypes.GET_ALL_USERS_FAILURE:
+    case UserActionTypes.GET_SINGLE_USER_FAILURE:
     case UserActionTypes.DELETE_ALL_USERS_FAILURE:
+    case UserActionTypes.DELETE_SINGLE_USER_FAILURE:
+
       return { ...state, isLoading: false, error: action.payload };
 
     // case 'SET_LOADING':
