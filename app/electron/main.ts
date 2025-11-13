@@ -2,21 +2,11 @@ import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
 //import installExtension, { REACT_DEVELOPER_TOOLS } from "@daltonmenezes/electron-devtools-installer";
-
-//import { app as expressApp } from "../src/server/index"
 import {app as expressServer } from "../src/server/index"
 import { connectDB } from "../src/database/connectDB"
 import { EXPRESS_APP_PORT } from '../src/server/index';
 
 function createWindow() {
-
-  // connectDB().then(()=>{
-  //   expressApp.listen(5000, () => {
-  //   console.log('Express server running on port 5000');
-  // });
-
-
-  // })
 
     connectDB().then(()=>{
 
