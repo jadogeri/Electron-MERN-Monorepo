@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../../App.css';
 import {  Link } from 'react-router-dom';
-import { useCreateUserMutation, useDeleteAllUsersMutation, useDeleteSingleUserMutation, useGetAllUsersQuery, useLazyGetAllUsersQuery, useLazyGetSingleUserQuery, useUpdateUserMutation } from '../redux/api/user/user.api';
 import { UserType } from '../../common/types/UserType.type';
 import UserTable from '../components/tables/UserTable/UserTable';
 import InfoTable from '../components/tables/InfoTable/InfoTable';
@@ -12,7 +11,6 @@ import { useUserContext } from '../contexts/dataContexts/UserContext';
   const user : UserType ={username:"NEg", "age":10, "email" : "email"}
 
 const Context = () => {
-    const { data: users, error, isLoading } = useGetAllUsersQuery();
     const [appUsers, setAppUsers] = useState<UserType[]>([])
     const [count, setCount] = useState<number>(0);
 
@@ -25,11 +23,6 @@ const Context = () => {
     const [inputPutAgeValue, setPutAgeInputValue] = useState<number>(0);
 //redux
 
-    const [getSingleUserTrigger, { isLoading: isGetSingleUsers }] = useLazyGetSingleUserQuery();
-    const [deleteSingleUserTrigger] = useDeleteSingleUserMutation();
-    const [deleteAllUsersTrigger, {isLoading: isDeletingAllUsers}] = useDeleteAllUsersMutation();
-    const [updateUserTrigger] = useUpdateUserMutation();
-
   const {state: userState,createUser, getAllUsers, deleteAllUsers, getSingleUser, deleteSingleUser, updateUser } = useUserContext();
 
 
@@ -40,17 +33,18 @@ const Context = () => {
     const [selectedGetUserID, setSelectedGetUserID] = useState<mongoose.Types.ObjectId>(new mongoose.Types.ObjectId());
 
 
-    useEffect(()=>{
-      setAppUsers(users as any)
+    useEffect( ()=>{
+      getAllUsers()
+      setAppUsers(userState.users)
 
     }, [appUsers])
-  if (isLoading) return <div>Loading posts...</div>;
   // if (error) return <div>Error: {error.message}</div>;
 
   const handlecounter = ()=>{
     setCount(count+1);
   }
     const handleCreateUser = async ()=>{
+      alert("calling create user...........................")
 
       try {
          await createUser({
@@ -144,7 +138,7 @@ const Context = () => {
      {/* <InfoTable users={appUsers} setUsers={setAppUsers as React.Dispatch<React.SetStateAction<never[]>>}      
       />  */}
       <InfoTable  
-        users={users as UserType[]} setUsers={setAppUsers as React.Dispatch<React.SetStateAction<never[]>>}
+        users={userState.users as UserType[]} setUsers={setAppUsers as React.Dispatch<React.SetStateAction<never[]>>}
         handleCreateUser={handleCreateUser} handleGetUser={handleGetSingleUser} handleGetUsers={handleGetAllUsers}
         handleUpdateUser={handleUpdateUser} handleDeleteUser={handleDeleteSingleUser} handleDeleteUsers={handleDeleteAllUsers}
         handleSetPostAgeInputValue={setPostAgeInputValue} handleSetPostEmailInputValue={setPostEmailInputValue}
@@ -161,16 +155,15 @@ const Context = () => {
 
       
       {/* <ParentComponent /> */}
-      selected value: ** {selectedGetUserID?.toString()} **
       {inputPostAgeValue}
       {inputPostEmailValue}
 
       <CounterView clicker={handlecounter} />
 {count}
-    <UserTable users={users as UserType[]} />
+    <UserTable users={userState.users as UserType[]} />
 
         <Link to={"/"}>Home</Link>
-        <Link to={"/context"}>Test Crud Template Using Context API</Link>
+        <Link to={"/redux"}>Test CRUD Template Using Redux</Link>
       </header>
     </div>
   )

@@ -14,6 +14,7 @@ import {
   CreateUserSuccessAction,
   CreateUserFailureAction} from "../actionTypes/userActionTypes.types";
 import api from "../../configs/axios";
+import { userApiSlice } from "../../redux/api/user/user.api";
 
 // 1. Define the State Type
 
@@ -45,7 +46,7 @@ const createUser = (dispatch: Dispatch<UserAction> ) => async (user: UserType) =
   } as CreateUserRequestAction);
   // Simulate API call
   try{
-    const result = await api.post("/");
+    const result = await api.post("/", user);
     const data = result.data;
     console.log("data ....................", JSON.stringify(data, null,4))
 
@@ -154,7 +155,7 @@ const deleteSingleUser= (dispatch: Dispatch<UserAction> ) => async (id: string) 
     console.log("data ....................", JSON.stringify(data, null,4))
 
     // throw new Error("error thowinggggggggggggggg")
-    dispatch({ type: UserActionTypes.DELETE_SINGLE_USER_SUCCESS, payload: data } as DeleteSingleUserSuccessAction);
+    dispatch({ type: UserActionTypes.DELETE_SINGLE_USER_SUCCESS, payload: id } as DeleteSingleUserSuccessAction);
 
     alert(JSON.stringify(data, null, 4))
 
@@ -205,6 +206,11 @@ const userReducer = (state: UserState, action: UserAction): UserState => {
     case UserActionTypes.DELETE_SINGLE_USER_FAILURE:
 
       return { ...state, isLoading: false, error: action.payload };
+    case UserActionTypes.DELETE_SINGLE_USER_SUCCESS:
+      return { ...state, users: [...state.users.filter((user)=>{
+        return user._id?.toString() != action.payload
+      }) ] , isLoading: false, error: null };
+
 
     // case 'SET_LOADING':
     //   return { ...state, loading: action.payload };

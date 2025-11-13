@@ -56,7 +56,7 @@ export interface DeleteSingleUserRequestAction {
 
 export interface DeleteSingleUserSuccessAction {
   type: UserActionTypes.DELETE_SINGLE_USER_SUCCESS;
-  payload: UserType[] | UserType
+  payload: string
 }
 
 export interface DeleteSingleUserFailureAction {

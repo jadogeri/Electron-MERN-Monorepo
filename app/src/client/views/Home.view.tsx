@@ -33,8 +33,8 @@ const Home = () => {
         </a>
                 <Link to={"/test"}>test app</Link>
 
-        <Link to={"/redux"}>Test Crud Template Using Redux Thunk</Link>
-        <Link to={"/context"}>Test Crud Template Using Context API</Link>
+        <Link to={"/redux"}>Test CRUD Template Using Redux</Link>
+        <Link to={"/context"}>Test CRUD Template Using Context API</Link>
       </header>
     </div>
   )

@@ -186,7 +186,7 @@ const Redux = () => {
     <UserTable users={users as UserType[]} />
 
         <Link to={"/"}>Home</Link>
-        <Link to={"/context"}>Test Crud Template Using Context API</Link>
+        <Link to={"/context"}>Test CRUD Template Using Context API</Link>
       </header>
     </div>
   )
