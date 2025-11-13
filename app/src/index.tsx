@@ -5,8 +5,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
  import { Provider } from 'react-redux';
 import { store } from './client/redux/store';
-import { AuthProvider } from './client/contexts/dataContexts/AuthContext';
-import { AppProvider } from './client/contexts/dataContexts/AppContext';
 import { UserProvider } from './client/contexts/dataContexts/UserContext';
 
 const root = ReactDOM.createRoot(
@@ -15,13 +13,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <UserProvider>
-    <AppProvider>
-      <AuthProvider>
     <Provider store={store}>
       <App />
     </Provider>
-          </AuthProvider>
-    </AppProvider>
     </UserProvider>
   </React.StrictMode>
 );

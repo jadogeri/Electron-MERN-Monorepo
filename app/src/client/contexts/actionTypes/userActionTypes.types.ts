@@ -134,10 +134,8 @@ export type UserAction =
 GetAllUsersRequestAction | GetAllUsersSuccessAction | GetAllUsersFailureAction |
 GetSingleUserRequestAction | GetSingleUserSuccessAction | GetSingleUserFailureAction |
 DeleteSingleUserRequestAction | DeleteSingleUserSuccessAction | DeleteSingleUserFailureAction |
-
 DeleteAllUsersRequestAction | DeleteAllUsersSuccessAction | DeleteAllUsersFailureAction |
 CreateUserRequestAction | CreateUserSuccessAction | CreateUserFailureAction |
-
 UpdateUserRequestAction | UpdateUserSuccessAction | UpdateUserFailureAction;
 
 

@@ -8,19 +8,19 @@ import mongoose, { Types } from 'mongoose';
 import { useUserContext } from '../contexts/dataContexts/UserContext';
 
 
-  const user : UserType ={username:"NEg", "age":10, "email" : "email"}
+const user : UserType ={username:"NEg", "age":10, "email" : "email"}
 
 const Context = () => {
-    const [appUsers, setAppUsers] = useState<UserType[]>([])
-    const [count, setCount] = useState<number>(0);
+  const [appUsers, setAppUsers] = useState<UserType[]>([])
+  const [count, setCount] = useState<number>(0);
 
-    //input fields
-    const [inputPostUsernameValue, setPostUsernameInputValue] = useState<string>('');
-    const [inputPostEmailValue, setPostEmailInputValue] = useState<string>('');
-    const [inputPostAgeValue, setPostAgeInputValue] = useState<number>(0);
-    const [inputPutUsernameValue, setPutUsernameInputValue] = useState<string>('');
-    const [inputPutEmailValue, setPutEmailInputValue] = useState<string>('');
-    const [inputPutAgeValue, setPutAgeInputValue] = useState<number>(0);
+  //input fields
+  const [inputPostUsernameValue, setPostUsernameInputValue] = useState<string>('');
+  const [inputPostEmailValue, setPostEmailInputValue] = useState<string>('');
+  const [inputPostAgeValue, setPostAgeInputValue] = useState<number>(0);
+  const [inputPutUsernameValue, setPutUsernameInputValue] = useState<string>('');
+  const [inputPutEmailValue, setPutEmailInputValue] = useState<string>('');
+  const [inputPutAgeValue, setPutAgeInputValue] = useState<number>(0);
 //redux
 
   const {state: userState,createUser, getAllUsers, deleteAllUsers, getSingleUser, deleteSingleUser, updateUser } = useUserContext();
@@ -38,13 +38,11 @@ const Context = () => {
       setAppUsers(userState.users)
 
     }, [appUsers])
-  // if (error) return <div>Error: {error.message}</div>;
 
   const handlecounter = ()=>{
     setCount(count+1);
   }
     const handleCreateUser = async ()=>{
-      alert("calling create user...........................")
 
       try {
          await createUser({
@@ -74,8 +72,7 @@ const Context = () => {
 
       const handleGetSingleUser = async ()=>{
     try{
-      //console.log("id passed to function :", id)
-     await getSingleUser(selectedGetUserID.toString());
+     await getSingleUser(selectedGetUserID);
    
     }catch(e: unknown){
       if(e instanceof Error){
@@ -86,7 +83,7 @@ const Context = () => {
   }
       const handleDeleteSingleUser = async ()=>{
     try{
-     await deleteSingleUser(selectedDeleteUserID.toString());
+     await deleteSingleUser(selectedDeleteUserID);
    
     }catch(e: unknown){
       if(e instanceof Error){
@@ -108,26 +105,20 @@ const Context = () => {
 
   }
       const handleUpdateUser = async () => {
-       
-         await updateUser(selectedUpdateUserID.toString(),{
+           try {
+         await updateUser(selectedUpdateUserID,{
             username:inputPutUsernameValue,
             age:inputPutAgeValue,
             email:inputPutEmailValue
-          } as UserType);
+          });
 
-      //   // Check for error in the result if not using .unwrap()
-      //   if ('error' in result) {
-      //     console.error('Mutation failed:', result.error);
-      //     // Handle error, e.g., show a toast notification
-      //   } else {
-      //     console.log('Mutation successful:', result.data);
-      //     // Handle success, e.g., show a success message
-      //   }
-      // } catch (err) {
-      //   // This catch block would primarily handle unexpected errors during dispatch or other sync issues
-      //   console.error('Unexpected error during mutation dispatch:', err);
-      // }   
-      };
+      }catch(e: unknown){
+      if(e instanceof Error){
+        console.log(JSON.stringify(e));
+      }
+    }
+
+  };
     
 
   return (
@@ -135,8 +126,7 @@ const Context = () => {
     >
       <header className="App-header"
       >
-     {/* <InfoTable users={appUsers} setUsers={setAppUsers as React.Dispatch<React.SetStateAction<never[]>>}      
-      />  */}
+
       <InfoTable  
         users={userState.users as UserType[]} setUsers={setAppUsers as React.Dispatch<React.SetStateAction<never[]>>}
         handleCreateUser={handleCreateUser} handleGetUser={handleGetSingleUser} handleGetUsers={handleGetAllUsers}

@@ -15,7 +15,6 @@ type UserTypeData = {
     body?: UserCreateRequestBody | UserUpdateRequestBody
 }
 
-
 export const userApiSlice = apiSlice.injectEndpoints({
    endpoints: (builder) => ({
     getAllUsers: builder.query<UserType[], void>({

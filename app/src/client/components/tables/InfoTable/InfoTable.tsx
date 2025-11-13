@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import "./InfoTable.css"
 import { InfoTableProps } from '../../../../common/types/InfoTableProps'
 import InputField from '../../InputField/InputField'
@@ -116,48 +116,6 @@ const InfoTable : React.FC<InfoTableProps> = ({
         <td>Remove All Users</td>
         <td></td>
       </tr>
-
-            {/*
-
-      <tr>
-                        <td onClick={()=>{handleGetUser}}>Call API</td>
-
-        <td>PUT</td>
-        <td>Update a User</td>
-        <td //colSpan={2}
-        >
-          <tr>
-              <td>id</td>
-              <td>username</td>
-              <td>email</td>
-              <td>age</td>
-          </tr>                
-          <tr>
-        <td ><Dropdown appUsers={users}  selectedValue={selectedUpdateUser?._id as mongoose.Types.ObjectId} setSelectedValue={setSelectedUpdateUser} onSelectChange={handleSelectedChange}/></td>
-              <td></td>
-              <td></td>
-              <td></td>
-          </tr>
-
-        </td>
-
-      </tr>
-                  <tr>
-            <td onClick={()=>{ handleDeleteUsers}}>Call API</td>
-
-        <td>DELETE</td>
-        <td>Remove All Users</td>
-        <td></td>
-      </tr>
-      <tr>
-            <td onClick={()=>{ handleDeleteUser}}>Call API</td>
-
-        <td>DELETE</td>
-        <td>Remove Single User</td>
-        <td ><Dropdown appUsers={users}  selectedValue={selectedDeleteUser} setSelectedValue={setSelectedDeletedUser} onSelectChange={handleSelectedChange}/></td>
-      </tr>
-  */}
-
 
       </tbody>
       

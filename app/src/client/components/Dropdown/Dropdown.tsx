@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { UserType } from '../../../common/types/UserType.type';
 import mongoose from 'mongoose';
 
 type DropdownProps={

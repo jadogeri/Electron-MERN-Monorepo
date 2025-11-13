@@ -1,8 +1,5 @@
-// import { userReducer } from "../reducers/userReducer.reducer";
-//import {getSingleUser, getAllUsers, updateUser, deleteSingleUser, deleteAllUsers} from "../actions/userActions.actions"
 import { createDataContext } from "../createDataContext";
 import { Dispatch } from "react";
-
 import { UserType } from "../../../common/types/UserType.type";
 import { 
   DeleteAllUsersRequestAction, DeleteAllUsersSuccessAction, DeleteAllUsersFailureAction, 
@@ -12,9 +9,13 @@ import {
   UserAction, UserActionTypes, 
   CreateUserRequestAction,
   CreateUserSuccessAction,
-  CreateUserFailureAction} from "../actionTypes/userActionTypes.types";
+  CreateUserFailureAction,
+  UpdateUserRequestAction,
+  UpdateUserSuccessAction,
+  UpdateUserFailureAction} from "../actionTypes/userActionTypes.types";
 import api from "../../configs/axios";
-import { userApiSlice } from "../../redux/api/user/user.api";
+import { UserUpdateRequestBody } from "../../../common/dtos/request/UserUpdateRequestBody.dto";
+import { Types } from "mongoose";
 
 // 1. Define the State Type
 
@@ -32,13 +33,6 @@ const initialState: UserState ={
     
 }
 
-
-
-
-
-//{username:"NAME", "age":10, "email" : "email"}
-
-
 // Define action handlers
 const createUser = (dispatch: Dispatch<UserAction> ) => async (user: UserType) => {
   dispatch({
@@ -48,8 +42,6 @@ const createUser = (dispatch: Dispatch<UserAction> ) => async (user: UserType) =
   try{
     const result = await api.post("/", user);
     const data = result.data;
-    console.log("data ....................", JSON.stringify(data, null,4))
-
     dispatch({ type: UserActionTypes.CREATE_USER_SUCCESS, payload: data } as CreateUserSuccessAction);
 
     alert(JSON.stringify(data, null, 4))
@@ -61,23 +53,18 @@ const createUser = (dispatch: Dispatch<UserAction> ) => async (user: UserType) =
   }
 };
 
-const updateUser = (dispatch: Dispatch<UserAction> ) => async (id: string, user: UserType) => {
-  dispatch({
-    type: UserActionTypes.CREATE_USER_REQUEST,
-  } as CreateUserRequestAction);
+const updateUser = (dispatch: Dispatch<UserAction> ) => async (id: Types.ObjectId, user: UserUpdateRequestBody) => {
+  dispatch({ type: UserActionTypes.UPDATE_USER_REQUEST } as UpdateUserRequestAction);
   // Simulate API call
   try{
     const result = await api.put(`/${id}`, user);
     const data = result.data;
-    console.log("data ....................", JSON.stringify(data, null,4))
+    dispatch({ type: UserActionTypes.UPDATE_USER_SUCCESS, payload: data } as UpdateUserSuccessAction);
 
-    dispatch({ type: UserActionTypes.CREATE_USER_SUCCESS, payload: data } as CreateUserSuccessAction);
-
-    alert(JSON.stringify(data, null, 4))
 
   }catch(error: unknown){
     if(error instanceof Error){
-    dispatch({ type: UserActionTypes.CREATE_USER_FAILURE, payload: error.message } as CreateUserFailureAction);
+    dispatch({ type: UserActionTypes.UPDATE_USER_FAILURE, payload: error.message } as UpdateUserFailureAction);
     }
   }
 };
@@ -88,11 +75,8 @@ const getAllUsers = (dispatch: Dispatch<UserAction> ) => async () => {
   try{
     const result = await api.get("/");
     const data = result.data;
-    console.log("data ....................", JSON.stringify(data, null,4))
 
     dispatch({ type: UserActionTypes.GET_ALL_USERS_SUCCESS, payload: data } as GetAllUsersSuccessAction);
-
-    alert(JSON.stringify(data, null, 4))
 
   }catch(error: unknown){
     if(error instanceof Error){
@@ -108,45 +92,36 @@ const deleteAllUsers = (dispatch: Dispatch<UserAction> ) => async () => {
   try{
     const result = await api.delete("/");
     const data = result.data;
-    console.log("data ....................", JSON.stringify(data, null,4))
-
-    // throw new Error("error thowinggggggggggggggg")
     dispatch({ type: UserActionTypes.DELETE_ALL_USERS_SUCCESS, payload: [] } as DeleteAllUsersSuccessAction);
-
-    alert(JSON.stringify(data, null, 4))
 
   }catch(error: unknown){
     if(error instanceof Error){
-        // console.log("error at line 81: ", error.message)
-    dispatch({ type: UserActionTypes.DELETE_ALL_USERS_FAILURE, payload: error.message } as DeleteAllUsersFailureAction);
+      dispatch({ type: UserActionTypes.DELETE_ALL_USERS_FAILURE, payload: error.message } as DeleteAllUsersFailureAction);
     }
   }
 
 };
 
-const getSingleUser= (dispatch: Dispatch<UserAction> ) => async (id: string) => {
+const getSingleUser= (dispatch: Dispatch<UserAction> ) => async (id: Types.ObjectId) => {
   dispatch({ type: UserActionTypes.GET_SINGLE_USER_REQUEST } as GetSingleUserRequestAction);
   // Simulate API call
   try{
     const result = await api.get(`/${id}`);
     const data : UserType= result.data;
-    console.log("data ....................", JSON.stringify(data, null,4))
 
-    // throw new Error("error thowinggggggggggggggg")
     dispatch({ type: UserActionTypes.GET_SINGLE_USER_SUCCESS, payload: data } as GetSingleUserSuccessAction);
 
     alert(JSON.stringify(data, null, 4))
 
   }catch(error: unknown){
     if(error instanceof Error){
-        // console.log("error at line 81: ", error.message)
     dispatch({ type: UserActionTypes.GET_SINGLE_USER_FAILURE, payload: error.message } as GetSingleUserFailureAction);
     }
   }
 
 };
 
-const deleteSingleUser= (dispatch: Dispatch<UserAction> ) => async (id: string) => {
+const deleteSingleUser= (dispatch: Dispatch<UserAction> ) => async (id: Types.ObjectId) => {
   dispatch({ type: UserActionTypes.DELETE_SINGLE_USER_REQUEST } as DeleteSingleUserRequestAction);
   // Simulate API call
   try{
@@ -155,8 +130,7 @@ const deleteSingleUser= (dispatch: Dispatch<UserAction> ) => async (id: string) 
     console.log("data ....................", JSON.stringify(data, null,4))
 
     // throw new Error("error thowinggggggggggggggg")
-    dispatch({ type: UserActionTypes.DELETE_SINGLE_USER_SUCCESS, payload: id } as DeleteSingleUserSuccessAction);
-
+    dispatch({ type: UserActionTypes.DELETE_SINGLE_USER_SUCCESS, payload: id.toString() } as DeleteSingleUserSuccessAction);
     alert(JSON.stringify(data, null, 4))
 
   }catch(error: unknown){
@@ -169,22 +143,13 @@ const deleteSingleUser= (dispatch: Dispatch<UserAction> ) => async (id: string) 
 };
 
 
-
-// const signOut = (dispatch: Dispatch<AuthAction>) => () => {
-//   dispatch({ type: 'SIGN_OUT' });
-// };
-
-
-// const setLoading = (dispatch: Dispatch<AuthAction>) => (isLoading: boolean) => {
-//   dispatch({ type: 'SET_LOADING', payload: isLoading });
-// };
-
 // Combine action creators
 const actions = { createUser, getAllUsers, deleteAllUsers, getSingleUser, deleteSingleUser, updateUser };
 
 // Define the reducer
 const userReducer = (state: UserState, action: UserAction): UserState => {
   switch (action.type) {
+    // ALL REQUESTS ARE HANDLED THE SAME
     case UserActionTypes.GET_ALL_USERS_REQUEST:
     case UserActionTypes.GET_SINGLE_USER_REQUEST:
     case UserActionTypes.DELETE_ALL_USERS_REQUEST:
@@ -193,27 +158,34 @@ const userReducer = (state: UserState, action: UserAction): UserState => {
     case UserActionTypes.UPDATE_USER_REQUEST:
       return { ...state, isLoading: true, error: null };
 
-    case UserActionTypes.CREATE_USER_SUCCESS:
-      return { ...state, isLoading: false, error: null, users: [...state.users, action.payload]  };
-    // case UserActionTypes.GET_ALL_USERS:
-    //   return { ...state, isLoading: false, error: null};
-    case UserActionTypes.GET_ALL_USERS_SUCCESS:
-    case UserActionTypes.DELETE_ALL_USERS_SUCCESS:
-      return { ...state,users: action.payload, isLoading: false, error: null };
+    // ALL FAILURES ARE HANDLED THE SAME
     case UserActionTypes.GET_ALL_USERS_FAILURE:
     case UserActionTypes.GET_SINGLE_USER_FAILURE:
     case UserActionTypes.DELETE_ALL_USERS_FAILURE:
     case UserActionTypes.DELETE_SINGLE_USER_FAILURE:
-
+    case UserActionTypes.CREATE_USER_FAILURE:
+    case UserActionTypes.UPDATE_USER_FAILURE:
       return { ...state, isLoading: false, error: action.payload };
+
+
+    case UserActionTypes.CREATE_USER_SUCCESS:
+      return { ...state, isLoading: false, error: null, users: [...state.users, action.payload]  };
+
+    case UserActionTypes.GET_ALL_USERS_SUCCESS:
+    case UserActionTypes.DELETE_ALL_USERS_SUCCESS:
+      return { ...state,users: action.payload, isLoading: false, error: null };
     case UserActionTypes.DELETE_SINGLE_USER_SUCCESS:
       return { ...state, users: [...state.users.filter((user)=>{
         return user._id?.toString() != action.payload
       }) ] , isLoading: false, error: null };
+    case UserActionTypes.UPDATE_USER_SUCCESS:
+      return { ...state, users: [...state.users.map((user)=>{
+        if(user._id?.toString() === action.payload._id?.toString()){
+          return action.payload
+        }
+        return user
+      }) ] , isLoading: false, error: null };
 
-
-    // case 'SET_LOADING':
-    //   return { ...state, loading: action.payload };
     default:
       return state;
   }

@@ -85,19 +85,27 @@ class UserService implements IUserService{
 
         try{
             const {username, email, age} = userRequest;
+                console.log("calling find user by id")
+
             const user = await this.userRepository.findById(id);
             if (!user)  {
                     console.log("calling get users no users");
+                        console.log("returning no user found in  server")
+
                 return new ErrorResponse(409,`No user found with id ${id}!`);
             }
             const userByEmailAvailable  = await this.userRepository.findByEmail(email as string);
             
             if (userByEmailAvailable) {
+                console.log("returning no 409 bad request but email taken")
+
                 return new ErrorResponse(409, "Email already taken!");
             }
 
             const userByUsernameAvailable  = await this.userRepository.findByUsername(username as string);
             if (userByUsernameAvailable) {
+                                console.log("returning no 409 bad request but username taken")
+
                 return new ErrorResponse(409,"Username already taken!");
             }
             const updatedUser = await this.userRepository.update(id, userRequest);
@@ -106,9 +114,13 @@ class UserService implements IUserService{
 
         }catch(error: unknown){
             if(error instanceof Error){
+                                console.log("returning no 409 bad request but all error")
+
                 return new ErrorResponse(409,"error!" + JSON.stringify(error)); 
             }
             else
+                                console.log("returning no 409 bad request but db error")
+
                 return new ErrorResponse(500,"database error!");   
             
         }

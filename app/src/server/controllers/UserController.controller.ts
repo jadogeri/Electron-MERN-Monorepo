@@ -91,9 +91,10 @@ class UserController implements IUserController{
 
   })
   updateUser= asyncHandler(async (req: Request<UserParams, {}, UserUpdateRequestBody>, res: Response): Promise<void> => {
+
   const id = req.params.id; // Access the ID from the URL
   const { username, email, age } : UserUpdateRequestBody = req.body; // Destructure properties from the body
-
+    console.log("calling update in server")
       if(!mongoose.Types.ObjectId.isValid(id)){
       errorBroadcaster(res, 400,"Not a valid id")
     }
