@@ -24,6 +24,6 @@ yarn-error.log*
 
 
 # Environment Variables
-.client.env
-.server.env
-.database.env
+.env
+
+

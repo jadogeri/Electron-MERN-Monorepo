@@ -14,8 +14,8 @@ const Home = () => {
 
     }, [users])
   if (isLoading) return <div>Loading posts...</div>;
-  // if (error) return <div>Error: {error.message}</div>;
 
+  
   return (
     <div className="App">
       <header className="App-header">
@@ -36,6 +36,9 @@ const Home = () => {
         <Link to={"/redux"}>Test CRUD Template Using Redux</Link>
         <Link to={"/context"}>Test CRUD Template Using Context API</Link>
       </header>
+      {
+        process.env.REACT_APP_EXPRESS_URL
+      }
     </div>
   )
 }

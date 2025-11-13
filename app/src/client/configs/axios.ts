@@ -1,11 +1,9 @@
 import axios from 'axios';
 import type { AxiosHeaders, AxiosInstance } from 'axios'
 
-const baseURL = "http://localhost:5000/api/users"//process.env.REACT_APP_BASE_URL;
+const baseURL = process.env.REACT_APP_EXPRESS_URL; //"http://localhost:5000/api/users"
 
-console.log("base url ",baseURL)
-
-
+console.log("base url ",baseURL);
 
 const headers ={
     'Access-Control-Allow-Headers': ['Content-Type', 'Authorization'],
