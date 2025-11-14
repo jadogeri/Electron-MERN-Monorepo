@@ -20,7 +20,7 @@ const Dropdown : React.FC<DropdownProps>=({appUsers, selectedValue, onSelectChan
           </option>
         ))}
       </select>
-      {/* <p>Selected fruit: {selectedValue}</p> */}
+      <p>Selected _id: {selectedValue}</p>
     </div>
   );
 }
