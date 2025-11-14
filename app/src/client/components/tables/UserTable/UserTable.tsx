@@ -5,7 +5,7 @@ import { UserTableProps } from '../../../../common/types/UserTableProps'
 
 const UserTable : React.FC<UserTableProps> = ({users }) => {
   return (
-    <table className="">
+    <table className="table-container">
       <thead>
         <tr>
           <th>id</th>              
