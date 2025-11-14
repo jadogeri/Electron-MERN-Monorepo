@@ -1,7 +1,7 @@
 table {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  width: 200%;
+  width: 100%;
 }
 
 thead th {
@@ -40,7 +40,7 @@ table th {
   max-height: 200px;
   overflow-y: auto;
   border: 1px solid #ccc;
-  width: 100%;
+  width: 80%;
   align-self: center;
   justify-self: center;
   position: sticky;
