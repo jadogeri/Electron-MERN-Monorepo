@@ -20,9 +20,6 @@ table th {
   padding: 8px;
 }
 
-/* table tr:nth-child(even) {
-  background-color: #f2f2f2;
-} */
 
 table tr:hover {
   background-color: #ddd;
@@ -36,11 +33,15 @@ table th {
   color: white;
 }
 
+.table-div{
+  width:100%
+}
+
 .table-container {
   max-height: 200px;
   overflow-y: auto;
   border: 1px solid #ccc;
-  width: 80%;
+  width: 70%;
   align-self: center;
   justify-self: center;
   position: sticky;

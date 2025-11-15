@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import mongoose from 'mongoose';
 
 type DropdownProps={
@@ -14,13 +14,12 @@ const Dropdown : React.FC<DropdownProps>=({appUsers, selectedValue, onSelectChan
     <div>
       {/* <label htmlFor="fruit-select">Choose a fruit:</label> */}
       <select id="mongoose-types-objectId" value={selectedValue} onChange={(event:any) => onSelectChange(event.target.value, setSelectedValue)}>
-        {appUsers.map((appUser) => (
+        {appUsers?.map((appUser) => (
           <option key={appUser._id} value={appUser._id}>
             {appUser._id}
           </option>
         ))}
       </select>
-      <p>Selected _id: {selectedValue}</p>
     </div>
   );
 }

@@ -157,8 +157,7 @@ const Redux = () => {
     >
       <header className="App-header"
       >
-     {/* <InfoTable users={appUsers} setUsers={setAppUsers as React.Dispatch<React.SetStateAction<never[]>>}      
-      />  */}
+
       <InfoTable  
         users={users as UserType[]} setUsers={setAppUsers as React.Dispatch<React.SetStateAction<never[]>>}
         handleCreateUser={handleCreateUser} handleGetUser={handleGetSingleUser} handleGetUsers={handleGetAllUsers}
@@ -176,13 +175,8 @@ const Redux = () => {
       />
 
       
-      {/* <ParentComponent /> */}
-      selected value: ** {selectedGetUserID?.toString()} **
-      {inputPostAgeValue}
-      {inputPostEmailValue}
+<br />
 
-      <CounterView clicker={handlecounter} />
-{count}
     <UserTable users={users as UserType[]} />
 
         <Link to={"/"}>Home</Link>
@@ -195,14 +189,5 @@ const Redux = () => {
 
 export default Redux
 
-type ClickProp={
-  clicker: React.MouseEventHandler<HTMLDivElement>
-}
 
-
-const CounterView : React.FC<ClickProp>= ({clicker  }) => {
-  return (
-    <div onClick={clicker}>increase count</div>
-  )
-}
 

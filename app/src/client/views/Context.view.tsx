@@ -12,7 +12,6 @@ const user : UserType ={username:"NEg", "age":10, "email" : "email"}
 
 const Context = () => {
   const [appUsers, setAppUsers] = useState<UserType[]>([])
-  const [count, setCount] = useState<number>(0);
 
   //input fields
   const [inputPostUsernameValue, setPostUsernameInputValue] = useState<string>('');
@@ -39,9 +38,6 @@ const Context = () => {
 
     }, [appUsers])
 
-  const handlecounter = ()=>{
-    setCount(count+1);
-  }
     const handleCreateUser = async ()=>{
 
       try {
@@ -145,16 +141,15 @@ const Context = () => {
 
       
       {/* <ParentComponent /> */}
-      {inputPostAgeValue}
-      {inputPostEmailValue}
-
-      <CounterView clicker={handlecounter} />
-{count}
+      {/* {inputPostAgeValue}
+      {inputPostEmailValue} */}
+<br/>
     <UserTable users={userState.users as UserType[]} />
 
         <Link to={"/"}>Home</Link>
         <Link to={"/redux"}>Test CRUD Template Using Redux</Link>
       </header>
+      
     </div>
   )
 }
@@ -162,14 +157,4 @@ const Context = () => {
 
 export default Context
 
-type ClickProp={
-  clicker: React.MouseEventHandler<HTMLDivElement>
-}
-
-
-const CounterView : React.FC<ClickProp>= ({clicker  }) => {
-  return (
-    <div onClick={clicker}>increase count</div>
-  )
-}
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import logo from '../../electron.webp';
 import '../../App.css';
-import { data, Link } from 'react-router-dom';
+import {  Link } from 'react-router-dom';
 import { useGetAllUsersQuery } from '../redux/api/user/user.api';
 import { UserType } from '../../common/types/UserType.type';
 
