@@ -1,6 +1,6 @@
-## **Electron MERN MONOREPO**
+## **Electron MERN Monorepo**
 
-**Version:** 1.1
+**Version:** 1.0
 **Date:** November 15, 2025
 
 ---
@@ -26,6 +26,12 @@ Electron application template with embedded datbaseand state management (Context
 | -------------------------------------------- | -------------------------------------------- |
 | ![Screenshot 1](assets/images/screenshot3.png) | ![Screenshot 1](assets/images/screenshot4.png) |
 
+## . Prerequisites**
+
+* [Download and install NodeJS](https://nodejs.org/en/download)
+
+---
+
 ## Table of Contents
 
 <ul>
@@ -35,20 +41,20 @@ Electron application template with embedded datbaseand state management (Context
         </ul>
       </li>
     </ul>
-     <ul>
-      <li><a href="#5-installation">2. Installation</a>
-      </li>
-    </ul> 
-    <ul>
-        <li><a href="#6-usage">3. Usage</a>
+    <li><a href="#2-technology-stack">2. Technology Stack</a> </li>
+    <li><a href="#3-usage">3. Usage</a> 
         <ul>
-            <li><a href="#61-run-application">3.1 Run Application</a> </li>
-            <ul>
-              <li><a href="#611-run-locally">3.1.1 Run Locally</a> </li>
-            </ul>
+            <li><a href="#30-run-electron-app-react">3.0 Run Electron App React</a> </li>
+            <li><a href="#31-run-electron-app-development">3.1 Run Electron App Development</a> </li>
+            <li><a href="#32-run-electron-app-production">3.2 Run Electron App Production</a> 
+                <ul> 
+                    <li><a href="#321-standalone-portable-version">3.2.1 Standalone (Portable) Version</a></li>
+                    <li><a href="#322-installer-version">3.2.2  Installer Version</a></li>
+                    <li><a href="#323-uninstalling-program">3.2.3  Uninstalling Program</a></li>
+                </ul>
+            </li>
         </ul>
-        </li>
-    </ul> 
+    </li>  
     <ul> 
         <li><a href="#10-references">4. References</a>
         </li>
@@ -61,49 +67,124 @@ Electron application template with embedded datbaseand state management (Context
 
 This document outlines the components, and design considerations for add printing functionality to reactjs application.
 
-## **2. Installation**
+### **2. Technology Stack**
 
-* [Download and install NodeJS](https://nodejs.org/en/download)
+- **Programming Languages**: Typescript
+- **IDE**: Visual Studio Code (VSCode)
+- **Source Control**: Git and GitHub
+- **Code Analysis**: SonarQube
+- **Database**: MongoDB
+- **Frontend**: React
+- **framework**: Node, Express and Electron
 
----
 
-## **3. Usage**
+### **3. Usage**
 
-**Prerequisites** :installation of NodeJS.
-
-### **3.1 Run Application**
-
-1 Open command prompt or terminal.
-
-2 Type command git clone https://github.com/jadogeri/Electron-MERN-Monorepo.git then press enter.
+0 Open a terminal then type git clone https://github.com/jadogeri/Electron-MERN-Monorepo.git
+to download to project.
 
 ```bash
-  git clone https://github.com/jadogeri/Electron-MERN-Monorepo.git
+git clone https://github.com/jadogeri/Electron-MERN-Monorepo.git
+
 ```
 
-3 Enter command cd Electron-MERN-Monorepo/app then press enter.
+1 Type cd Electron-MERN-Monorepo/app command.
 
 ```bash
   cd Electron-MERN-Monorepo/app
 ```
 
-#### **3.1.1 Run Locally**
-
-1 Type npm install --force to install dependencies.
+2 Type npm install --force command to install dependencies.
 
 ```bash
   npm install --force
 ```
 
-2 Create .env file then fill out the environment variables using .env.sample as template
+3 Create .env file then fill out the environment variables using .env.sample as template
 
 ![Screenshot 1](assets/images/env-sample.png)
 
-3 Type npm start to run application
+### 3.0 Run Electron App React
+
+1 type command npm start to run the app in the development mode.
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+The page will reload if you make edits.
+You will also see any lint errors in the console.
 
 ```bash
   npm start
 ```
+
+### 3.1 Run Electron App Development
+
+1 type command npm run electron:dev to run the app in electron app pane in development mode.
+
+a build directory will be generated as shown below.
+
+![Screenshot 1](assets/images/dev.png)
+
+The desktop app will reload if you make edits.
+You will also see any lint errors in the developer tool console if enabled in main.ts (Electron-MERN-Monorepo/app/electron/main.ts).
+
+```bash
+  npm run electron:dev
+```
+
+### 3.2 Run Electron App Production
+
+1 type command npm run electron:build to bundle app .
+
+a dist directory will be generated as shown below.
+
+![Screenshot 1](assets/images/prod.png)
+
+The standalone and installer version of app will be inside /dist directory.
+
+```bash
+  npm run electron:build
+```
+
+### 3.2.1 Standalone (Portable) Version
+
+1 Navigate to /dist/win-unpacked directory.
+
+2 Double click on app.exe (Application) to run the program.
+
+![Screenshot 1](assets/images/standalone.png)
+
+The application can run without installation.
+
+### 3.2.2  Installer version
+
+1 Navigate to /dist/ directory.
+
+2 Double click on app Setup 0.1.0 .exe (Application) to install the  program.
+
+![Screenshot 1](assets/images/installer.png)
+
+### 3.2.3  Uninstalling program
+
+Electron-MERN-Monorepo application can be uninstalled via searching or control panel
+
+### Searching
+
+1 Search for program using search box, then press uninstall.
+
+![Screenshot 1](assets/images/searching.png)
+
+### Control Panel
+
+1 Open control panel application.
+
+2 Under Programs, click uninstall a program.
+
+3 Scroll and locate the application in the list.
+
+4 Left click on the application, then click uninstall button.
+
+![Screenshot 1](assets/images/controlpanel.png)
+
 ---
 
 ## **4. References**
